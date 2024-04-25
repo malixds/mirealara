@@ -42,7 +42,9 @@ Route::get('/dashboard', function () {
 
 
 Route::get('/posts', [PostController::class, 'posts'])->name('post.show');
-Route::post('/posts', [PostController::class, 'posts'])->name('post.show-post');
+Route::post('/posts/search', [PostController::class, 'postSearch'])->name('post.search');
+
+// Route::get('/posts/search', [PostController::class, 'showPostSearch'])->name('post.search-show');
 
 
 Route::get('/posts/full/{id}', [PostController::class, 'postFull'])->name('post.show-full');

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Post;
-use App\Models\Role;
 use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,26 +16,44 @@ class PostController extends Controller
     public function posts(Request $request)
     {
         $user = auth()->user();
-        $requestData = json_decode($request->getContent(), true);
-        if ($requestData !== null) {
-            $selectedValues = $requestData['value'];
-            $posts = Post::with('user.roles', 'subject')
-                ->whereHas('subject', function ($query) use ($selectedValues) {
-                    $query->whereIn('name', $selectedValues);
-                })
-                ->get();
-            return view('pages.posts', [
-                'user' => $user,
-                'posts'=> $posts
-            ]);
-        } else {
-            $posts = Post::with('user.roles', 'subject')->get();
-        }
+        $posts = Post::with('user.roles', 'subject')->get();
         return view('pages.posts', [
             'user' => $user,
             'posts' => $posts,
         ]);
     }
+
+
+    public function postSearch(Request $request)
+    {
+        $user = auth()->user();
+        $subjectsArr = $request->input('subjects');
+        if ($subjectsArr !== null) {
+            $posts = Post::with('user.roles', 'subject')
+                ->whereHas('subject', function ($query) use ($subjectsArr) {
+                    $query->whereIn('name', $subjectsArr);
+                })
+                ->get();
+        } else {
+            $user = auth()->user();
+            $posts = Post::with('user.roles', 'subject')->get();
+        }
+        return view('pages.postsearch', [
+            'user' => $user,
+            'posts' => $posts,
+        ]);
+    }
+    // public function showPostSearch()
+    // {
+    //     $posts = Post::all();
+    //     $user = auth()->user();
+
+    //     // Возвращаем представление с передачей переменной $posts
+    //     return view('pages.postsearch', [
+    //         'posts' => $posts,
+    //         'user' => $user,
+    //     ]);
+    // }
 
 
     public function postFull(int $id)

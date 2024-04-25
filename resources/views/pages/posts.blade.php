@@ -2,22 +2,6 @@
 
 @section('content')
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <section>
-        @if (isset($maxim))
-        {
-            <h1>{{$maxim}}</h1>
-        }
-        @endif
-        <h3>{{$posts}}</h3>
-        @foreach ($posts as $post)
-            <h2>{{$post->title}}</h2>
-        @endforeach
-
-        <!-- Container -->
-
-
-
-
         <script>
             $(document).ready(function() {
                 $('.js-example-basic-multiple').select2();
@@ -45,11 +29,11 @@
                     <option value="Математика">Математика</option>
                     <option value="Литература">Литература</option>
                     <option value="Русский язык">Русский язык</option>
-                    <option value="Русский язык">Русский язык</option>
+                    <option value="Русский язык">История</option>
                 </select>
             </div>
             <!-- Features Div -->
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 lg:gap-12" data-aos="fade-up"
+            <div id="posts-container" class="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 lg:gap-12" data-aos="fade-up"
                 data-aos-duration="900">
                 <!-- Feature Item -->
                 @if (isset($subjectsValues))
