@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\User;
+use App\Enums\UserRolesEnum;
 
 class ProfileController extends Controller
 {
@@ -59,5 +61,37 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+
+    public function profile(string $name)
+    {
+        $user = auth()->user();
+        return view('pages.profile', [
+            'user' => $user,
+
+        ]);
+    }
+
+    public function formCreateShow(int $id)
+    {
+        $user = auth()->user();
+        if ($user->id === $id) {
+            return view('pages.workerform', [
+                'user' => $user,
+            ]);
+        } else {
+            return redirect()->route('user.profile-form', $id);
+        }
+    }
+
+    public function formCreate(Request $request, int $id)
+    {
+        $user = User::find($id);
+        // dd($user);
+        $user->roles()->updateExistingPivot(2, ['role_id' => 3]);
+        // dd($request->except(['_token', 'subjects']));
+        $user->update($request->except(['_token', 'subjects']));
+        return redirect()->route('user.profile-form', $id);
     }
 }

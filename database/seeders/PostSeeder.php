@@ -13,13 +13,14 @@ class PostSeeder extends Seeder
      */
     public function run(): void
     {
+
         $faker = Faker::create();
         foreach(range(1, 10) as $index) {
             Post::create([
                 'title'=> $faker->title(),
                 'description'=> $faker->text(),
                 'user_id'=> rand(1,3),
-                'subject_id'=> rand(1, 10),
+                'subject_id'=> rand(1, 7),
                 'price'=> 1000,
                 'deadline' => $faker->date(),
             ]);

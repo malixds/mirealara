@@ -2,11 +2,6 @@
 
 @section('content')
     <meta name="csrf-token" content="{{ csrf_token() }}">
-        <script>
-            $(document).ready(function() {
-                $('.js-example-basic-multiple').select2();
-            });
-        </script>
 
         <div class="max-w-7xl px-5 py-16 md:px-10 md:py-16 lg:py-24 mx-auto">
 
@@ -91,7 +86,7 @@
                                     {{ $post->title }}
                                 </p>
                                 @if (auth()->user() != null)
-                                @if (($post->user->id === $user->id || $user->roles->first()->name === 'admin') && auth()->user())
+                                @if (($post->user->id === $user->id || $user->roles->first()->slug === 'admin'))
                                     <a href="{{ route('post.edit-show', $post->id) }}"><i
                                             class="mt-1 fa-solid fa-pen-to-square"></i></a>
                                     <a href="{{ route('post.delete', $post->id) }}"><i

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Post;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Subject extends Model
 {
@@ -18,5 +19,10 @@ class Subject extends Model
     public function posts() : HasMany
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function users() : BelongsToMany
+    {
+        return $this->BelongsToMany(User::class);
     }
 }

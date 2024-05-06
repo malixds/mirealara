@@ -34,6 +34,12 @@ Route::get('/', function () {
     ]);
 })->name('main');
 
+Route::get('/profile/{id}', [ProfileController::class, 'profile'])->name('user.profile');
+Route::get('/profile/form/{id}', [ProfileController::class, 'formCreateShow'])->name('user.profile-form');
+Route::post('/profile/form/{id}', [ProfileController::class, 'formCreate'])->name('user.profile-form-create');
+
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -67,8 +67,10 @@
 
                     <a href="{{route('post.show')}}"
                         class="font-inter font-medium rounded-lg lg:px-6 lg:py-4 lg:hover:bg-gray-50 lg:hover:text-gray-800">Posts</a>
-                    <a href="https://tailwind-css-template-jetpack.vercel.app/Landing%20Pricing"
-                        class="font-inter font-medium rounded-lg pb-8 lg:px-6 lg:py-4 lg:pb-0 lg:hover:bg-gray-50 lg:hover:text-gray-800">Pricing</a>
+                    @if($user)
+                    <a href="{{route('user.profile', $user->name)}}"
+                        class="font-inter font-medium rounded-lg pb-8 lg:px-6 lg:py-4 lg:pb-0 lg:hover:bg-gray-50 lg:hover:text-gray-800">My form</a>
+                    @endif
 
                 </div>
                 <!-- MENU CONTENT 2 -->

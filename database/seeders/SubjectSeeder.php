@@ -14,10 +14,20 @@ class SubjectSeeder extends Seeder
      */
     public function run(): void
     {
-        $faker = Faker::create();
-        foreach(range(1, 10) as $index) {
+        $subjectsArr = [
+            'Математический анализ',
+            'Линейная алгебра',
+            'Физика',
+            'Системное программное обеспечение',
+            'История',
+            'Английский язык',
+            'Технологияя хранения данных',
+            'ОБЖ',
+            'Технологии беспроводных сетей',
+        ];
+        foreach ($subjectsArr as $value) {
             Subject::create([
-                'name'=>"Maths"
+                'name' => $value
             ]);
         }
     }

@@ -24,6 +24,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'description',
+        'contact_link',
     ];
 
     /**
@@ -54,5 +56,10 @@ class User extends Authenticatable
     public function roles() : BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'user_roles');
+    }
+
+    public function subjects() : BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class, 'user_subjects');
     }
 }
