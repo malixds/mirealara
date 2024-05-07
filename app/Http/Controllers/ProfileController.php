@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\User;
+use App\Models\Subject;
 use App\Enums\UserRolesEnum;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -76,6 +78,9 @@ class ProfileController extends Controller
     public function formCreateShow(int $id)
     {
         $user = auth()->user();
+        if (!$user) {
+            return redirect()->route('main');
+        }
         if ($user->id === $id) {
             return view('pages.workerform', [
                 'user' => $user,
@@ -88,10 +93,22 @@ class ProfileController extends Controller
     public function formCreate(Request $request, int $id)
     {
         $user = User::find($id);
-        // dd($user);
+        $subjectsArr = $request->subjects;
+        foreach ($subjectsArr as $subjectName) {
+            $subjectId = Subject::where('name', $subjectName)->first()->id;
+            $exists = DB::table('user_subjects')
+                ->where('user_id', $id)
+                ->where('subject_id', $subjectId)
+                ->exists();
+            if(!$exists) {
+                $user->subjects()->attach($subjectId);
+            }
+        }
         $user->roles()->updateExistingPivot(2, ['role_id' => 3]);
-        // dd($request->except(['_token', 'subjects']));
-        $user->update($request->except(['_token', 'subjects']));
+        $user->update([
+
+            ...$request->except(['_token', 'subjects'])
+        ]);
         return redirect()->route('user.profile-form', $id);
     }
 }

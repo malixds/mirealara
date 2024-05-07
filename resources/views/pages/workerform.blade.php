@@ -32,8 +32,8 @@
                         <div class="mx-auto w-full max-w-3xl">
                             <select id="posts__selector posts__selector-form" class="js-example-basic-multiple posts__selector" name="subjects[]"
                                 multiple="multiple">
-                                <option value="Математика">Математика</option>
-                                <option value="Литература">Литература</option>
+                                <option value="Математический анализ">Математический анализ</option>
+                                <option value="Линейная алгебра">Линейная алгебра</option>
                                 <option value="Русский язык">Русский язык</option>
                                 <option value="Русский язык">История</option>
                             </select>
