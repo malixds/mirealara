@@ -78,12 +78,16 @@ class ProfileController extends Controller
     public function formCreateShow(int $id)
     {
         $user = auth()->user();
+
         if (!$user) {
             return redirect()->route('main');
         }
         if ($user->id === $id) {
+            $subjectsArr = $user->subjects()->get();
+            // dd($subjectsArr);
             return view('pages.workerform', [
                 'user' => $user,
+                'subjectsArr' => $subjectsArr
             ]);
         } else {
             return redirect()->route('user.profile-form', $id);
@@ -100,7 +104,7 @@ class ProfileController extends Controller
                 ->where('user_id', $id)
                 ->where('subject_id', $subjectId)
                 ->exists();
-            if(!$exists) {
+            if (!$exists) {
                 $user->subjects()->attach($subjectId);
             }
         }
@@ -110,5 +114,16 @@ class ProfileController extends Controller
             ...$request->except(['_token', 'subjects'])
         ]);
         return redirect()->route('user.profile-form', $id);
+    }
+
+    public function formDeleteSubject(int $userSubjectId)
+    {
+        // dd($userSubjectId);
+        $userId = auth()->user()->id;
+        DB::table('user_subjects')
+            ->where('user_id', $userId)
+            ->where('subject_id', $userSubjectId)
+            ->delete();
+        return redirect()->route('user.profile-form', $userId);
     }
 }

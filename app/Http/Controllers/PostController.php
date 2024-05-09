@@ -8,6 +8,7 @@ use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -43,27 +44,15 @@ class PostController extends Controller
             'posts' => $posts,
         ]);
     }
-    // public function showPostSearch()
-    // {
-    //     $posts = Post::all();
-    //     $user = auth()->user();
-
-    //     // Возвращаем представление с передачей переменной $posts
-    //     return view('pages.postsearch', [
-    //         'posts' => $posts,
-    //         'user' => $user,
-    //     ]);
-    // }
-
 
     public function postFull(int $id)
     {
-
         $user = auth()->user();
         $post = Post::find($id)->with('user.roles', 'subject')->first();
         // dd($post);
         return view('pages.postfull', [
             'post' => $post,
+            'post_id'=>$id,
             'user' => $user
         ]);
     }
@@ -80,13 +69,15 @@ class PostController extends Controller
     }
     public function postCreate(Request $request)
     {
-        $subject_name = $request->get('subject_name');
-        $subject_id = Subject::where('name', $subject_name)->first()->id;
+        $subjectName = $request->get('subject_name');
+        $subjectId = Subject::where('name', $subjectName)->first()->id;
+        $userId = auth()->user()->id;
         Post::create([
             ...$request->except(['_token', 'subject_name']),
-            'subject_id' => $subject_id,
-            'user_id' => auth()->user()->id,
+            'subject_id' => $subjectId,
+            'user_id' => $userId,
         ]);
+
         return redirect()->route('post.show');
     }
 
@@ -128,7 +119,6 @@ class PostController extends Controller
 
     public function postDelete(int $id)
     {
-        dd('hello');
         $userId = auth()->user()->id;
         $user = auth()->user()->with('roles')->find($userId);
         $roleId = $user->roles->first()->name;
@@ -141,6 +131,29 @@ class PostController extends Controller
             abort(403);
         }
     }
+
+
+    public function postAccept(int $id) {
+        $userId = auth()->user()->id;  // executor
+        $post = Post::find($id);  // пост, на который делают отклик
+        DB::table('post_accept')->insert([
+            'post_id' => $id,
+            'author_id' => $post->user_id,
+            'executor_id'=> $userId,
+        ]);
+        $post->increment('responce', 1);
+        return redirect()->route('post.show-full', $id);
+        // $post->update
+    }
+
+
+
+
+
+
+
+
+
 
     // public function postSearch(Request $request)
     // {

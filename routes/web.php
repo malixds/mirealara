@@ -37,6 +37,8 @@ Route::get('/', function () {
 Route::get('/profile/{id}', [ProfileController::class, 'profile'])->name('user.profile');
 Route::get('/profile/form/{id}', [ProfileController::class, 'formCreateShow'])->name('user.profile-form');
 Route::post('/profile/form/{id}', [ProfileController::class, 'formCreate'])->name('user.profile-form-create');
+Route::post('/delete/subject/{id}', [ProfileController::class, 'formDeleteSubject'])->name('user.profile-form-delete-subject');
+
 
 
 
@@ -62,8 +64,9 @@ Route::post('/posts/create', [PostController::class, 'postCreate'])->name('post.
 Route::get('/posts/edit/{id}', [PostController::class, 'postEditShow'])->name('post.edit-show');
 Route::post('/posts/edit/{id}', [PostController::class, 'postEdit'])->name('post.edit');
 
-
 Route::post('/posts/delete/{id}', [PostController::class, 'postDelete'])->name('post.delete');
+
+Route::put('/posts/accept/{id}', [PostController::class, 'postAccept'])->name('post.accept');
 
 // Route::get('/posts/search', [PostController::class, 'postSearch'])->name('post.search');
 

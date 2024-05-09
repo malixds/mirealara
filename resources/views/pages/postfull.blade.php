@@ -65,13 +65,18 @@
                             </p>
                         </div>
                     </a>
-                    <div class="mt-8 mx-auto sm:w-8/12">
-                        <a href="{{ route('register') }}"
-                            class="lg:mr-0 sm:mr-5 font-inter rounded-lg lg:px-6 lg:py-4 lg:hover:bg-gray-50 lg:hover:text-gray-800">Sign
-                            Up</a>
-                        <a href="{{ route('login') }}"
-                            class="relative mr-5 inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">Get
-                            Started</a>
+                    <div class="flex flex-col space-y-8 lg:flex lg:flex-row lg:space-x-3 lg:space-y-0">
+                        <a href="{{ route('main') }}"
+                            class="relative mr-5 inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">
+                            Write to customer
+                        </a>
+                        {{$post_id}}
+                        <form action="{{route('post.accept', $post_id)}}" method="post">
+                            {{ csrf_field() }}
+                            {{ method_field('put') }}
+                            <button type='submit'
+                                class="relative mr-5 inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">Take task</button>
+                        </form>
                     </div>
                 </div>
                 <div class="overflow-hidden relative left-4 max-h-[500px] max-w-[500px] md:left-0"><img

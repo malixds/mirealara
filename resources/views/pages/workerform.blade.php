@@ -13,7 +13,7 @@
                     aliquam, purus sit amet luctus venenatis, lectus
                 </p>
             </div>
-            <h1>{{$user->name}}</h1>
+            <h1>{{ $user->name }}</h1>
             <div class="flex">
                 <div class="mx-auto max-w-xl bg-[#f2f2f7] p-8 text-center rounded-3xl border">
                     <h3 class="text-2xl font-bold md:text-3xl">Get A Free Quote</h3>
@@ -21,17 +21,29 @@
                         Lorem ipsum dolor sit amet consectetur adipiscing elit ut
                         aliquam,purus sit amet luctus magna fringilla urna
                     </p>
+                    <ul class="tags">
+                        @foreach ($subjectsArr as $subject)
+                            <li style="flex" class="pl-5 tag-li">
+                                <form class="inline" action="{{ route('user.profile-form-delete-subject', $subject->id) }}" method="POST">
+                                    @method('post')
+                                    @csrf
+                                    <button type="submit">x</button>
+                                </form>
+                                <p class="tag">{{ $subject->name }}</p>
+                            </li>
+                        @endforeach
+                    </ul>
                     <form name="wf-form-password" class="mb-4 w-full text-left" method="POST"
                         action="{{ route('user.profile-form-create', $user->id) }}">
                         @csrf
                         <div class="mb-8 flex flex-col gap-y-2">
                             <label for="field-3" class="mb- font-bold">Description</label>
-                            <textarea name="description" value="{{$user->description}}" placeholder="Enter some information about yourself"
+                            <textarea name="description" value="{{ $user->description }}" placeholder="Enter some information about yourself"
                                 class="h-auto min-h-[186px] w-full overflow-auto bg-[#FAFAFA] px-3 py-6 text-sm text-gray-900"></textarea>
                         </div>
                         <div class="mx-auto w-full max-w-3xl">
-                            <select id="posts__selector posts__selector-form" class="js-example-basic-multiple posts__selector" name="subjects[]"
-                                multiple="multiple">
+                            <select id="posts__selector posts__selector-form"
+                                class="js-example-basic-multiple posts__selector" name="subjects[]" multiple="multiple">
                                 <option value="Математический анализ">Математический анализ</option>
                                 <option value="Линейная алгебра">Линейная алгебра</option>
                                 <option value="Русский язык">Русский язык</option>
@@ -40,7 +52,8 @@
                         </div>
                         <div class="mb-4 flex flex-col gap-y-2">
                             <label for="name-2" class="mb-1 font-bold">Telegram</label>
-                            <input name="contact_link" value="{{$user->contact_link}}" placeholder="Enter Telegram Nickname" required
+                            <input name="contact_link" value="{{ $user->contact_link }}"
+                                placeholder="Enter Telegram Nickname" required
                                 class="h-9 w-full bg-[#FAFAFA] px-3 py-6 text-sm text-gray-900">
                         </div>
                         <input type="submit" value="Get Started"
