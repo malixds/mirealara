@@ -1,6 +1,6 @@
 let selector = document.getElementById('posts__selector');
 
-console.log('selector', selector)
+console.log('selector', selector);
 
 $(document).ready(function () {
     $('#posts__selector').on('change', function () {

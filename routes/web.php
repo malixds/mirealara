@@ -34,7 +34,7 @@ Route::get('/', function () {
     $user = auth()->user();
     $posts = Post::get();
     $users = User::get();
-    dd($users->roles);
+    // dd($users->roles);
     return view('pages.welcome', [
         'user' => $user,
         'posts' => $posts,
@@ -81,6 +81,8 @@ Route::put('/posts/accept/{id}', [PostController::class, 'postAccept'])->name('p
 // Route::get('/posts/search', [PostController::class, 'postSearch'])->name('post.search');
 
 
+Route::get('/executors', [ProfileController::class, 'executors'])->name('executors');
+Route::post('/executors/search', [ProfileController::class, 'executorSearch'])->name('executor.search');
 
 
 

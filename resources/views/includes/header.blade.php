@@ -51,10 +51,8 @@
 
                     <a href="{{route('post.show')}}"
                         class="font-inter font-medium rounded-lg lg:px-6 lg:py-4 lg:hover:bg-gray-50 lg:hover:text-gray-800">Posts</a>
-                    @if($user)
-                    <a href="{{route('user.profile', $user->id)}}"
-                        class="font-inter font-medium rounded-lg pb-8 lg:px-6 lg:py-4 lg:pb-0 lg:hover:bg-gray-50 lg:hover:text-gray-800">My form</a>
-                    @endif
+                    <a href="{{route('executors')}}"
+                        class="font-inter font-medium rounded-lg pb-8 lg:px-6 lg:py-4 lg:pb-0 lg:hover:bg-gray-50 lg:hover:text-gray-800">Executors</a>
 
                 </div>
                 <!-- MENU CONTENT 2 -->

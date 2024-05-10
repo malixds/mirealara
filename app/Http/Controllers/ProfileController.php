@@ -132,4 +132,52 @@ class ProfileController extends Controller
             ->delete();
         return redirect()->route('user.profile-form', $userId);
     }
+
+    public function executors()
+    {
+
+        // $executors = [];
+        $user = auth()->user();
+        $users = User::with('roles', 'subjects')->get();
+        $subjects = Subject::get();
+        $executors = [];
+        // dd($users);
+        foreach ($users as $user) {
+            if ($user->roles->first()->slug === 'worker') {
+                $executors[] = $user;
+            }
+        }
+        return view('pages.executors', [
+            'executors' => $executors,
+            'subjects' => $subjects,
+            'user' => $user,
+        ]);
+    }
+    public function executorSearch(Request $request)
+    {
+        // dd('hello');
+        $user = auth()->user();
+        $subjectsArr = $request->input('subjects');
+        $executors = [];
+        if ($subjectsArr !== null) {
+            $users = User::with('roles', 'subjects')
+                ->whereHas('subjects', function ($query) use ($subjectsArr) {
+                    $query->whereIn('name', $subjectsArr);
+                })
+                ->get();
+            foreach ($users as $user) {
+                if ($user->roles->first()->slug === 'worker') {
+                    $executors[] = $user;
+                }
+            }
+            dd($executors);
+            return view('pages.executorsearch', [
+                'user' => $user,
+                'executors' => $executors,
+            ]);
+        } else {
+            return redirect()->route('executors');
+        }
+
+    }
 }
