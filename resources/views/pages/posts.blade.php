@@ -21,9 +21,11 @@
         <div class="mx-auto w-full max-w-3xl">
             <select id="posts__selector" class="js-example-basic-multiple posts__selector" name="states[]"
                 multiple="multiple">
+                @foreach ($subjects as $subject)
+                <option value="{{$subject->name}}">{{$subject->name}}</option>
+                @endforeach
                 <option value="Математика">Математика</option>
                 <option value="Литература">Литература</option>
-                <option value="Русский язык">Русский язык</option>
                 <option value="Русский язык">История</option>
             </select>
         </div>

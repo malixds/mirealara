@@ -15,6 +15,9 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 
+use App\Models\Post;
+use App\Models\User;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,11 +32,18 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 
 Route::get('/', function () {
     $user = auth()->user();
+    $posts = Post::get();
+    $users = User::get();
+    dd($users->roles);
     return view('pages.welcome', [
-        'user' => $user
+        'user' => $user,
+        'posts' => $posts,
+        'users' => $users
     ]);
 })->name('main');
 
+
+// Route::get('/profile/orders')
 Route::get('/profile/{id}', [ProfileController::class, 'profile'])->name('user.profile');
 Route::get('/profile/form/{id}', [ProfileController::class, 'formCreateShow'])->name('user.profile-form');
 Route::post('/profile/form/{id}', [ProfileController::class, 'formCreate'])->name('user.profile-form-create');

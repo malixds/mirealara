@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\User;
+use App\Models\Post;
 use App\Models\Subject;
 use App\Enums\UserRolesEnum;
 use Illuminate\Support\Facades\DB;
@@ -66,13 +67,18 @@ class ProfileController extends Controller
     }
 
 
-    public function profile(string $name)
+    public function profile(int $id)
     {
         $user = auth()->user();
-        return view('pages.profile', [
-            'user' => $user,
-
-        ]);
+        $myPosts = Post::get()->where('user_id', $id);
+        if ($user->id !== $id) {
+            return redirect()->route('user.profile', $user->id);
+        } else {
+            return view('pages.profile', [
+                'user' => $user,
+                'posts' => $myPosts,
+            ]);
+        }
     }
 
     public function formCreateShow(int $id)

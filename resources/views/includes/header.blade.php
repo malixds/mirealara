@@ -4,7 +4,7 @@
             <div
                 class="flex max-w-7xl flex-col px-5 py-6 lg:flex-row lg:items-center lg:justify-between md:px-10 lg:py-4 mx-auto">
                 <!-- SVG LOGO - YOU CAN REPLACE THIS -->
-                <a href="#">
+                <a href="{{route('main')}}">
                     <svg class="relative" width="127" height="27" viewBox="0 0 127 27" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -44,31 +44,15 @@
                 <div class="mt-14 flex flex-col space-y-8 lg:mt-0 lg:flex lg:flex-row lg:space-x-1 lg:space-y-0"
                     x-bind:class="isOpen ? 'show' : 'hidden'">
                     <!-- DROPDOWN -->
-                    <div class="relative flex flex-col">
-                        <btn onclick="showDropDown()" x-on:click.prevent="menuOne = !menuOne" href="#"
-                            class="dropdownn-menu-link flex flex-row text-[#000000] font-inter font-medium rounded-lg lg:px-6 lg:py-4 lg:hover:bg-gray-50 lg:hover:text-gray-800"
-                            x-bind:class="menuOne">Profile
-                        </btn>
-                        <!-- DROP DOWN MENU ONE -->
-
-                        <script>
-                            function showDropDown() {
-                                var box = document.getElementById('dropdown__menu');
-                                var computedStyle = window.getComputedStyle(box);
-
-                                if (computedStyle.display === 'none') {
-                                    box.style.display = 'block';
-                                } else {
-                                    box.style.display = 'none';
-                                }
-                            }
-                        </script>
-                    </div>
+                    @if($user)
+                    <a href="{{route('user.profile', $user->id)}}"
+                        class="font-inter font-medium rounded-lg pb-8 lg:px-6 lg:py-4 lg:pb-0 lg:hover:bg-gray-50 lg:hover:text-gray-800">Profile</a>
+                    @endif
 
                     <a href="{{route('post.show')}}"
                         class="font-inter font-medium rounded-lg lg:px-6 lg:py-4 lg:hover:bg-gray-50 lg:hover:text-gray-800">Posts</a>
                     @if($user)
-                    <a href="{{route('user.profile', $user->name)}}"
+                    <a href="{{route('user.profile', $user->id)}}"
                         class="font-inter font-medium rounded-lg pb-8 lg:px-6 lg:py-4 lg:pb-0 lg:hover:bg-gray-50 lg:hover:text-gray-800">My form</a>
                     @endif
 
@@ -108,10 +92,10 @@
                             </a>
                             <!-- ITEM -->
                             <a class="flex grow flex-col rounded-lg px-5 py-4 lg:basis-[248px] xl:px-8"
-                                href="https://tailwind-css-template-jetpack.vercel.app/Landing%20Home3">
+                                href="">
                                 <!-- TEXT -->
                                 <h2 class="text-black font-inter text-lg font-medium">
-                                    Landing Home 3
+
                                 </h2>
                             </a>
                             <!-- ITEM -->

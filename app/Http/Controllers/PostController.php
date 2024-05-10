@@ -18,9 +18,12 @@ class PostController extends Controller
     {
         $user = auth()->user();
         $posts = Post::with('user.roles', 'subject')->get();
+        $subjects = Subject::get();
+        // dd($subjects->first());
         return view('pages.posts', [
             'user' => $user,
             'posts' => $posts,
+            'subjects' => $subjects,
         ]);
     }
 
