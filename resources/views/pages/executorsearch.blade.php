@@ -24,6 +24,7 @@
 
         <p>
             {{ $executor->description }}
+            {{$executor->id}}
         </p>
         @if ($executor->subjects)
             @foreach ($executor->subjects as $subject)

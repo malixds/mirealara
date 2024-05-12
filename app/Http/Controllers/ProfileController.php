@@ -71,14 +71,11 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
         $myPosts = Post::get()->where('user_id', $id);
-        if ($user->id !== $id) {
-            return redirect()->route('user.profile', $user->id);
-        } else {
-            return view('pages.profile', [
-                'user' => $user,
-                'posts' => $myPosts,
-            ]);
-        }
+        return view('pages.profile', [
+            'user' => $user,
+            'posts' => $myPosts,
+        ]);
+
     }
 
     public function formCreateShow(int $id)
