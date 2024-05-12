@@ -157,12 +157,13 @@ class ProfileController extends Controller
     {
         // dd('hello');
         $user = auth()->user();
-        $subjectsArr = $request->input('subjects');
+        $subjectsRequest = $request->input('subjects');
+        $subjects = Subject::get();
         $executors = [];
-        if ($subjectsArr !== null) {
+        if ($subjectsRequest !== null) {
             $users = User::with('roles', 'subjects')
-                ->whereHas('subjects', function ($query) use ($subjectsArr) {
-                    $query->whereIn('name', $subjectsArr);
+                ->whereHas('subjects', function ($query) use ($subjectsRequest) {
+                    $query->whereIn('name', $subjectsRequest);
                 })
                 ->get();
             foreach ($users as $user) {
@@ -170,14 +171,21 @@ class ProfileController extends Controller
                     $executors[] = $user;
                 }
             }
-            dd($executors);
-            return view('pages.executorsearch', [
-                'user' => $user,
-                'executors' => $executors,
-            ]);
         } else {
-            return redirect()->route('executors');
+            $users = User::with('roles', 'subjects')->get();
+            $executors = [];
+            // dd($users);
+            foreach ($users as $user) {
+                if ($user->roles->first()->slug === 'worker') {
+                    $executors[] = $user;
+                }
+            }
         }
+        return view('pages.executorsearch', [
+            'executors' => $executors,
+            'subjects' => $subjects,
+            'user' => $user,
+        ]);
 
     }
 }

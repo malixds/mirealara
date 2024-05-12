@@ -17,6 +17,7 @@ $(document).ready(function () {
                 subjects: selectedValues,
             },
             success: function (response) {
+                console.log(response);
                 $('#posts-container').html(response);
             }
         })
