@@ -83,6 +83,7 @@ Route::put('/posts/accept/{id}', [PostController::class, 'postAccept'])->name('p
 
 Route::get('/executors', [ProfileController::class, 'executors'])->name('executors');
 Route::post('/executors/search', [ProfileController::class, 'executorSearch'])->name('executor.search');
+Route::get('/executor/{id}', [ProfileController::class, 'executorProfile'])->name('executor.profile');
 
 
 

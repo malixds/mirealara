@@ -67,7 +67,7 @@
                         {{-- <p>
                             Subject: {{ $executor->subject->name }}
                         </p> --}}
-                        <a href="{{ route('user.profile', $executor->id) }}"
+                        <a href="{{ route('executor.profile', $executor->id) }}"
                             class=" mt-4 relative mr-5 inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">
                             Подробнее</a>
                     </div>
@@ -108,7 +108,7 @@
                             <p>{{$subject->name}}</p>
                         @endforeach
                         @endif
-                        <a href="{{ route('user.profile', $executor->id) }}"
+                        <a href="{{ route('executor.profile', $executor->id) }}"
                             class=" mt-4 relative mr-5 inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">
                             Подробнее</a>
                     </div>

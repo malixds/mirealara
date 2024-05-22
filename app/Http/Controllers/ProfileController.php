@@ -135,15 +135,23 @@ class ProfileController extends Controller
 
         // $executors = [];
         $user = auth()->user();
-        $users = User::with('roles', 'subjects')->get();
+        // $users = User::with('roles', 'subjects')->get();
+        $executors = User::whereHas('roles', function ($query) {
+            $query->where('slug', 'worker');
+        })->with('subjects')->get();
+
+        // dd($workers);
         $subjects = Subject::get();
-        $executors = [];
         // dd($users);
-        foreach ($users as $user) {
-            if ($user->roles->first()->slug === 'worker') {
-                $executors[] = $user;
-            }
-        }
+        // foreach ($users as $key => $user) {
+        //     if ($user->roles->first()->slug) {
+        //         dd($user);
+        //     }
+        //     if ($user->roles->first()->slug === 'worker') {
+        //         $executors[] = $user;
+        //     }
+        // }
+        // dd($executors);
         return view('pages.executors', [
             'executors' => $executors,
             'subjects' => $subjects,
@@ -169,20 +177,34 @@ class ProfileController extends Controller
                 }
             }
         } else {
-            $users = User::with('roles', 'subjects')->get();
-            $executors = [];
-            // dd($users);
-            foreach ($users as $user) {
-                if ($user->roles->first()->slug === 'worker') {
-                    $executors[] = $user;
-                }
-            }
+            $executors = User::whereHas('roles', function ($query) {
+                $query->where('slug', 'worker');
+            })->with('subjects')->get();
         }
         return view('pages.executorsearch', [
             'executors' => $executors,
             'subjects' => $subjects,
             'user' => $user,
         ]);
+
+    }
+
+    public function executorProfile(int $id)
+    {
+        $user = auth()->user();
+        $executor = User::find($id);
+        $executorsId = User::whereHas('roles', function ($query) {
+            $query->where('slug', 'worker');
+        })->pluck('id')->toArray();
+//        dd($executorsId);
+        if (in_array($id, $executorsId)) {
+            return view(('pages.executorprofile'), [
+                'executor' => $executor,
+                'user' => $user,
+            ]);
+        } else {
+            abort(404);
+        }
 
     }
 }
