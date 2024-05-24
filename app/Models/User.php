@@ -63,4 +63,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Subject::class, 'user_subjects');
     }
+
+    public function post_accept() : BelongsToMany
+    {
+        return $this->belongsToMany(Post::class, 'post_accept');
+    }
 }

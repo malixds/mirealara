@@ -2,11 +2,6 @@
 
 @section('content')
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script>
-        $(document).ready(function() {
-            $('.js-example-basic-multiple').select2();
-        });
-    </script>
 
     </section>
     <div class="max-w-7xl px-5 py-16 md:px-10 md:py-16 lg:py-24 mx-auto">
@@ -31,22 +26,22 @@
                         </div>
                         <!-- CTA -->
                         @if ($user)
-                        @if ($user->roles()->first()->slug !== 'worker')
-                            <div class="mx-auto max-w-3xl text-center">
-                                <h1>Вы не можете выполнять задания для этого заполните анкету</h1>
+                            @if ($user->roles()->first()->slug !== 'worker')
+                                <div class="mx-auto max-w-3xl text-center">
+                                    <h1>Вы не можете выполнять задания для этого заполните анкету</h1>
+                                    <a href="{{ route('user.profile-form', $user->id) }}"
+                                       class="mt-5 inline-block rounded-xl bg-black px-8 py-4 font-semibold text-white [box-shadow:rgb(255,_255,_255)_6px_6px]">
+                                        Заполнить анкету
+                                    </a>
+                                </div>
+                            @else
+                                <h1>Вы можете выполнять задания</h1>
                                 <a href="{{ route('user.profile-form', $user->id) }}"
-                                    class="mt-5 inline-block rounded-xl bg-black px-8 py-4 font-semibold text-white [box-shadow:rgb(255,_255,_255)_6px_6px]">
-                                    Заполнить анкету
+                                   class="mt-5 inline-block rounded-xl bg-black px-8 py-4 font-semibold text-white [box-shadow:rgb(255,_255,_255)_6px_6px]">
+                                    Смотреть анкету
                                 </a>
-                            </div>
-                        @else
-                            <h1>Вы можете выполнять задания</h1>
-                            <a href="{{ route('user.profile-form', $user->id) }}"
-                                class="mt-5 inline-block rounded-xl bg-black px-8 py-4 font-semibold text-white [box-shadow:rgb(255,_255,_255)_6px_6px]">
-                                Смотреть анкету
-                            </a>
+                            @endif
                         @endif
-                    @endif
                     </div>
                 </div>
             </div>
@@ -66,13 +61,13 @@
         </div>
 
         <div id="posts-container" class="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 lg:gap-12 mt-5"
-            data-aos="fade-up" data-aos-duration="900">
-            @foreach ($posts as $post)
+             data-aos="fade-up" data-aos-duration="900">
+            @foreach ($myPosts as $post)
                 <div class="relative mb-8 flex flex-col rounded-2xl border border-solid border-black p-8 [box-shadow:rgb(0,_0,_0)_9px_9px] lg:mb-4">
                     <div
                         class="absolute -top-8 bottom-auto left-auto right-4 flex h-16 w-16 flex-col items-center justify-center rounded-full border border-solid border-[#9b9b9b] bg-white [box-shadow:rgb(0,_0,_0)_0px_5px] lg:right-8">
                         <img src="https://assets.website-files.com/63904f663019b0d8edf8d57c/639157f1a197859a6cd7f265_image%203.png"
-                            alt="" class="relative z-10 inline-block h-8" />
+                             alt="" class="relative z-10 inline-block h-8" />
                         <div class="absolute z-0 h-8 w-8 rounded-full border border-[#c0d1ff] bg-[#c0d1ff]">
                         </div>
                     </div>
@@ -104,7 +99,65 @@
                     </p>
                     Отклики: {{ $post->responce }}
                     <a href="{{ route('post.show-full', $post->id) }}"
-                        class=" mt-4 relative mr-5 inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">
+                       class=" mt-4 relative mr-5 inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">
+                        Подробнее</a>
+                </div>
+            @endforeach
+        </div>
+
+        <div class="mt-20 mx-auto w-full max-w-3xl text-center" data-aos="fade-up" data-aos-duration="900">
+            <h2 class="text-3xl font-semibold md:text-5xl">
+                Ваши
+                <span
+                    class="bg-cover bg-center bg-no-repeat px-4 text-white bg-[url('https://assets.website-files.com/63904f663019b0d8edf8d57c/63915f9749aaab0572c48dae_Rectangle%2018.svg')]">заказы</span>
+            </h2>
+            <div class="mx-auto mb-8 mt-4 max-w-[528px] md:mb-12 lg:mb-16">
+                <p class="text-[#636262]">
+                    Здесь отображаются задания пользователей, на которые вы откликнулись
+                </p>
+            </div>
+        </div>
+
+        <div id="posts-container" class="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 lg:gap-12 mt-5"
+             data-aos="fade-up" data-aos-duration="900">
+            @foreach ($myTasks as $task)
+                <div class="relative mb-8 flex flex-col rounded-2xl border border-solid border-black p-8 [box-shadow:rgb(0,_0,_0)_9px_9px] lg:mb-4">
+                    <div
+                        class="absolute -top-8 bottom-auto left-auto right-4 flex h-16 w-16 flex-col items-center justify-center rounded-full border border-solid border-[#9b9b9b] bg-white [box-shadow:rgb(0,_0,_0)_0px_5px] lg:right-8">
+                        <img src="https://assets.website-files.com/63904f663019b0d8edf8d57c/639157f1a197859a6cd7f265_image%203.png"
+                             alt="" class="relative z-10 inline-block h-8" />
+                        <div class="absolute z-0 h-8 w-8 rounded-full border border-[#c0d1ff] bg-[#c0d1ff]">
+                        </div>
+                    </div>
+                    <div class="flex justify-between">
+                        <p class="mb-4 text-xl font-semibold">
+                            {{ $task->title }}
+                        </p>
+                        @if (auth()->user() != null)
+                            @if ($task->user->id == $user->id || $user->roles->first()->name === 'admin')
+                                <a href="{{ route('post.edit-show', $task->id) }}"><i
+                                        class="mt-1 fa-solid fa-pen-to-square"></i>edit</a>
+                                <form class="inline" action="{{ route('post.delete', $task->id) }}" method="POST">
+                                    @method('post')
+                                    @csrf
+                                    <button type="submit"><i class="mt-1 fa-solid fa-trash"></i>x</button>
+                                </form>
+                            @endif
+                        @endif
+                    </div>
+
+                    <p>
+                        {{ $task->description }}
+                    </p>
+                    <p>
+                        Subject: {{ $task->subject->name }}
+                    </p>
+                    <p>
+                        Creator: {{ $task->user->name }}
+                    </p>
+                    Отклики: {{ $task->responce }}
+                    <a href="{{ route('post.show-full', $task->id) }}"
+                       class=" mt-4 relative mr-5 inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">
                         Подробнее</a>
                 </div>
             @endforeach

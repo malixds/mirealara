@@ -141,7 +141,7 @@ class PostController extends Controller
         $post = Post::find($id);  // пост, на который делают отклик
         DB::table('post_accept')->insert([
             'post_id' => $id,
-            'author_id' => $post->user_id,
+            'user_id' => $post->user_id,
             'executor_id'=> $userId,
         ]);
         $post->increment('responce', 1);

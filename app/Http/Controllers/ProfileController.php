@@ -71,11 +71,18 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
         $myPosts = Post::get()->where('user_id', $id);
+//        dd($myPosts);
+        $myTasks = Post::whereHas('post_accept', function ($query) {
+            $query->where('executor_id', auth()->user()->id);
+        })->with(['post_accept' => function ($query) {
+            $query->where('executor_id', auth()->user()->id);
+        }])->get();
+//        dd($myTasks);
         return view('pages.profile', [
             'user' => $user,
-            'posts' => $myPosts,
+            'myTasks' => $myTasks,
+            'myPosts' => $myPosts,
         ]);
-
     }
 
     public function formCreateShow(int $id)

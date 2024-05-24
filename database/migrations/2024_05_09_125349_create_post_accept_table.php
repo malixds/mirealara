@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('post_accept', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('author_id');
-            $table->unsignedBigInteger('post_id');
+            $table->unsignedBigInteger('user_id');
+            $table->foreignId('post_id');
             // $table->foreignId('post_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('executor_id')->nullable();
+            $table->foreignId('executor_id')->nullable();
         });
     }
 
