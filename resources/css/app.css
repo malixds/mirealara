@@ -72,6 +72,20 @@
     line-height: 26px;
 }
 
+
+.profile__link-header::after{
+    content: '';
+    position: absolute;
+    top: 10%; /* Adjust as necessary */
+    right: -15px; /* Adjust as necessary */
+    width: 10px;
+    height: 10px;
+    background-color: blue;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+
 /* .tag::before {
     background: #fff;
     border-radius: 10px;

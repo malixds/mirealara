@@ -137,15 +137,22 @@ class PostController extends Controller
 
 
     public function postAccept(int $id) {
-        $userId = auth()->user()->id;  // executor
-        $post = Post::find($id);  // пост, на который делают отклик
-        DB::table('post_accept')->insert([
-            'post_id' => $id,
-            'user_id' => $post->user_id,
-            'executor_id'=> $userId,
-        ]);
-        $post->increment('responce', 1);
-        return redirect()->route('post.show-full', $id);
+        $user = auth()->user();
+        $userRole = $user->roles->first()->slug;
+//        dd($user->roles->first()->slug==='worker');
+        if ($userRole==='worker' ||  $userRole==='admin') {
+            $userId = $user->id;  // executor
+            $post = Post::find($id);  // пост, на который делают отклик
+            DB::table('post_accept')->insert([
+                'post_id' => $id,
+                'user_id' => $post->user_id,
+                'executor_id'=> $userId,
+            ]);
+            $post->increment('responce', 1);
+            return redirect()->route('post.show-full', $id);
+        } else {
+            return redirect()->route('user.profile-form', $user->id);
+        }
         // $post->update
     }
 
