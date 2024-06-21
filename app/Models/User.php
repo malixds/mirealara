@@ -68,4 +68,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Post::class, 'post_accept');
     }
+
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class);
+    }
 }
+

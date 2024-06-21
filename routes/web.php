@@ -86,6 +86,10 @@ Route::post('/executors/search', [ProfileController::class, 'executorSearch'])->
 Route::get('/executor/{id}', [ProfileController::class, 'executorProfile'])->name('executor.profile');
 
 
+Route::controller(\App\Http\Controllers\ChatController::class)->group(function () {
+    Route:;get('/chat', 'chat-index');
+});
+
 
 
 Route::get('/logout', function () {
