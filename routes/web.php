@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
 use Illuminate\Foundation\Application;
@@ -86,16 +87,15 @@ Route::post('/executors/search', [ProfileController::class, 'executorSearch'])->
 Route::get('/executor/{id}', [ProfileController::class, 'executorProfile'])->name('executor.profile');
 
 
-Route::controller(\App\Http\Controllers\ChatController::class)->group(function () {
-    Route:;get('/chat', 'chat-index');
-});
+Route::get('/chat', [ChatController::class, 'chat'])->name('chat');
+Route::get('/chat/messages', [ChatController::class, 'chatMessages'])->name('chat.messages');
+Route::post('/chat/send', [ChatController::class, 'chatSend'])->name('chat.send');
 
 
-
-Route::get('/logout', function () {
-    Auth::logout();
-    return redirect()->route('main');
-})->name('logout');
+//Route::get('/logout', function () {
+//    Auth::logout();
+//    return redirect()->route('main');
+//})->name('logout');
 
 
 

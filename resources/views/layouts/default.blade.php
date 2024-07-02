@@ -19,25 +19,14 @@
 <body>
     <div class="relative">
         @include('includes.header')
-        @yield('content')
-
-
+            @yield('content')
+        <div class="chat" id="chat">
+            @yield('chat')
+        </div>
         @include('includes.footer')
     </div>
-    <script>
-        import AOS from "aos";
-        import "aos/dist/aos.css";
-
-        export default {
-            mounted() {
-                AOS.init({
-                    once: true,
-                });
-            },
-        };
-    </script>
     <script src="https://kit.fontawesome.com/ca0dc65707.js" crossorigin="anonymous"></script>
-    <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
+{{--    <script src="../path/to/flowbite/dist/flowbite.min.js"></script>--}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
 </body>
 
