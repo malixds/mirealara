@@ -92,10 +92,10 @@ Route::get('/chat/messages', [ChatController::class, 'chatMessages'])->name('cha
 Route::post('/chat/send', [ChatController::class, 'chatSend'])->name('chat.send');
 
 
-//Route::get('/logout', function () {
-//    Auth::logout();
-//    return redirect()->route('main');
-//})->name('logout');
+Route::get('/logout', function () {
+    Auth::logout();
+    return redirect()->route('main');
+})->name('logout');
 
 
 

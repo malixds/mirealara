@@ -5,9 +5,16 @@ export default function useChat() {
     const messages = ref([]);
     const errors = ref([]);
     const getMessage = async () => {
-        await axios.get('/chat/messages').then((response) => {
-            messages.value = response.data;
-        })
+        console.log('GET MESSAGES')
+        try {
+            await axios.get('/chat/messages').then((response) => {
+                messages.value = response.data;
+            })
+        } catch (e) {
+            console.log('ERROR', e)
+        }
+
+        console.log('messages12', messages)
     }
 
     const addMessage = async (form) => {
@@ -16,7 +23,7 @@ export default function useChat() {
         try {
             await axios.post('/chat/send', form).then((response) => {
                 messages.value.push(response.data);
-                console.log('response data', response);
+                console.log('response data', messages);
             })
         } catch (e) {
             console.log('Ошибка', e.message, e.response, e.data, e.value)
@@ -27,6 +34,7 @@ export default function useChat() {
 
     }
 
+    console.log('messages from main', messages.value)
     return {
         messages,
         errors,

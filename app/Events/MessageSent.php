@@ -24,6 +24,7 @@ class MessageSent implements ShouldBroadcast
      */
     public function __construct(User $user, Message $message)
     {
+        dump($user, $message);
         $this->user = $user;
         $this->message = $message;
     }
@@ -35,6 +36,7 @@ class MessageSent implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
+        dump('la;sdkal;skdlas');
         return [
             new PrivateChannel('chat'),
         ];
