@@ -20,26 +20,20 @@ class ChatController extends Controller
     }
     public function chatMessages(): \Illuminate\Http\JsonResponse|array|\Illuminate\Database\Eloquent\Collection
     {
-        try {
-            return Message::query()
-                ->with('user')
-                ->get();
-        } catch (\Exception $e) {
-            Log::error('Error fetching chat messages: ' . $e->getMessage());
-            return response()->json(['error' => 'Unable to fetch chat messages'], 500);
-        }
+        return Message::query()
+            ->with('user')
+            ->get();
     }
 
     public function chatSend(MessageFormRequest $request): array
     {
-        
-        $user = auth()->user();
+
         $message = $request->user()
             ->messages()
             ->create($request->validated());
+
         broadcast(new MessageSent($request->user(), $message));
-        return ['user'=> $user,
-            'message'=> $message,
-            ];
+        dump($message);
+        return $message;
     }
 }

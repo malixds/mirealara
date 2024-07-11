@@ -36,7 +36,6 @@ class MessageSent implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
-        dump('la;sdkal;skdlas');
         return [
             new PrivateChannel('chat'),
         ];

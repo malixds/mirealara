@@ -28,7 +28,7 @@ import useChat from "@/Composable/Chat.js";
 import addMessage from "@/Composable/Chat.js";
 
 export default {
-    name: 'chatForm',
+    name: 'ChatForm',
     mounted() {
         console.log('mounted')
     },
