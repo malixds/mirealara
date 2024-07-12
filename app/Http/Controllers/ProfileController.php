@@ -70,7 +70,7 @@ class ProfileController extends Controller
     public function profile(int $id)
     {
         $user = auth()->user();
-        $myPosts = Post::get()->where('user_id', $id);
+        $myPosts = Post::all()->where('user_id', $id);
 //        dd($myPosts);
         $myTasks = Post::whereHas('post_accept', function ($query) {
             $query->where('executor_id', auth()->user()->id);
@@ -165,6 +165,7 @@ class ProfileController extends Controller
             'user' => $user,
         ]);
     }
+
     public function executorSearch(Request $request)
     {
         // dd('hello');
@@ -213,5 +214,16 @@ class ProfileController extends Controller
             abort(404);
         }
 
+    }
+
+    public function inbox(int $id)
+    {
+        $user = User::find($id);
+        $inbox = $user->inboxes()->get();
+        dd($inbox);
+
+        return view('pages.inbox', [
+                'user' => $user,
+            ]);
     }
 }

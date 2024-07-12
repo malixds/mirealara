@@ -87,6 +87,8 @@ Route::post('/executors/search', [ProfileController::class, 'executorSearch'])->
 Route::get('/executor/{id}', [ProfileController::class, 'executorProfile'])->name('executor.profile');
 
 
+Route::get('/inbox/{id}', [ProfileController::class, 'inbox'])->name('inbox');
+
 Route::get('/chat', [ChatController::class, 'chat'])->name('chat');
 Route::get('/chat/messages', [ChatController::class, 'chatMessages'])->name('chat.messages');
 Route::post('/chat/send', [ChatController::class, 'chatSend'])->name('chat.send');
