@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\UserRolesEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -55,9 +56,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
-    public function roles() : BelongsToMany
+    public function role() : HasOne
     {
-        return $this->belongsToMany(Role::class, 'user_roles');
+        return $this->hasOne(Role::class);
     }
 
     public function subjects() : BelongsToMany
@@ -83,6 +84,11 @@ class User extends Authenticatable
     public function chats(): hasMany
     {
         return $this->hasMany(Chat::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role->slug = UserRolesEnum::ADMIN->value;
     }
 }
 

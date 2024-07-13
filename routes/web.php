@@ -73,7 +73,7 @@ Route::get('/posts/create', [PostController::class, 'postCreateShow'])->name('po
 Route::post('/posts/create', [PostController::class, 'postCreate'])->name('post.create');
 
 Route::get('/posts/edit/{id}', [PostController::class, 'postEditShow'])->name('post.edit-show');
-Route::post('/posts/edit/{id}', [PostController::class, 'postEdit'])->name('post.edit');
+Route::post('/posts/edit/{post}', [PostController::class, 'postEdit'])->name('post.edit');
 
 Route::post('/posts/delete/{id}', [PostController::class, 'postDelete'])->name('post.delete');
 

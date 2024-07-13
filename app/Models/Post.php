@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Post extends Model
 {
@@ -15,9 +16,9 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function subject() : BelongsTo
+    public function subject() : HasOne
     {
-        return $this->belongsTo(Subject::class);
+        return $this->hasOne(Subject::class);
     }
 
     public function post_accept() : BelongsToMany

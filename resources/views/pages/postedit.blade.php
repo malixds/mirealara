@@ -5,7 +5,7 @@
         <div class="mx-auto w-full max-w-7xl px-5 pb-16 md:px-10 md:pb-24 lg:pb-32">
             <div class="mx-auto p-8">
                 <h2 class="text-3xl mb-[30px] w-full font-semibold md:text-5xl lg:text-left"><span
-                        class="bg-cover bg-center bg-no-repeat px-4 text-white bg-[url('https://assets.website-files.com/63904f663019b0d8edf8d57c/6391714b7ac2b51acc1a2548_Rectangle%2017%20(1).svg')]">Let's
+                            class="bg-cover bg-center bg-no-repeat px-4 text-white bg-[url('https://assets.website-files.com/63904f663019b0d8edf8d57c/6391714b7ac2b51acc1a2548_Rectangle%2017%20(1).svg')]">Let's
                         Build</span> <br>Something <br>Exciting Together
                 </h2>
                 <p class="mb-6 max-w-lg pb-4 text-[#636262]">
@@ -21,20 +21,21 @@
                         aliquam,purus sit amet luctus magna fringilla urna
                     </p>
                     <form name="wf-form-password" class="mb-4 w-full text-left" method="POST"
-                        action="{{ route('post.edit', $post->id) }}">
+                          action="{{ route('post.edit', $post->id) }}">
                         <p>POST ID ::: {{$post->id}}</p>
                         @csrf
                         <div class="mb-4 flex flex-col gap-y-2">
                             <label for="name-2" class="mb-1 font-bold">Title</label>
-                            <input name="title" placeholder="Enter the short information" value="{{$post->title}}" required
-                                class="h-9 w-full bg-[#FAFAFA] px-3 py-6 text-sm text-gray-900"">
+                            <input name="title" placeholder="Enter the short information" value="{{$post->title}}"
+                                   required
+                                   class="h-9 w-full bg-[#FAFAFA] px-3 py-6 text-sm text-gray-900"">
                         </div>
                         <div class="mb-4 flex flex-col gap-y-2">
                             <label for="name-2" class="mb-1 font-bold">Select subject</label>
                             <select name="subject_name" id="countries" class="text-gray-900 text-sm block w-full p-2.5">
 
                                 @foreach ($subjects as $subject)
-                                    <option selected>{{$subject->name}}</option>
+                                    <option value="{{$subject->id}}" selected>{{$subject->name}}</option>
                                 @endforeach
                                 <option selected>{{$subject_name}}</option>
                             </select>
@@ -42,21 +43,22 @@
                         <div class="mb-4 flex flex-col gap-y-2">
                             <label for="name-2" class="mb-1 font-bold">Price</label>
                             <input name="price" placeholder="Enter Price" value="{{$post->price}}" required
-                                class="h-9 w-full bg-[#FAFAFA] px-3 py-6 text-sm text-gray-900">
+                                   class="h-9 w-full bg-[#FAFAFA] px-3 py-6 text-sm text-gray-900">
                         </div>
                         <div class="mb-4 flex flex-col gap-y-2">
                             <label for="name-2" class="mb-1 font-bold">Deadline</label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                                    <svg class="w-4 h-4 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                        fill="currentColor" viewBox="0 0 20 20">
+                                    <svg class="w-4 h-4 text-gray-900" aria-hidden="true"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         fill="currentColor" viewBox="0 0 20 20">
                                         <path
-                                            d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                                d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                                     </svg>
                                 </div>
                                 <input name="deadline" datepicker type="text"
-                                    class="bg-[#FAFAFA] text-gray-900 text-sm block w-full ps-10 p-2.5"
-                                    placeholder="Select date" value="{{$post->deadline}}">
+                                       class="bg-[#FAFAFA] text-gray-900 text-sm block w-full ps-10 p-2.5"
+                                       placeholder="Select date" value="{{$post->deadline}}">
                             </div>
                         </div>
                         <div class="mb-8 flex flex-col gap-y-2">

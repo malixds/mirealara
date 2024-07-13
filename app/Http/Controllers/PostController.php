@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 
+use App\Dto\Post\EditPostDto;
 use App\Models\Post;
 use App\Models\Subject;
 use App\Models\User;
+use App\Services\Post\EditPostService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
-
-
     public function posts(Request $request)
     {
         $user = auth()->user();
@@ -21,8 +21,8 @@ class PostController extends Controller
         $subjects = Subject::get();
         // dd($subjects->first());
         return view('pages.posts', [
-            'user' => $user,
-            'posts' => $posts,
+            'user'     => $user,
+            'posts'    => $posts,
             'subjects' => $subjects,
         ]);
     }
@@ -43,7 +43,7 @@ class PostController extends Controller
             $posts = Post::with('user.roles', 'subject')->get();
         }
         return view('pages.postsearch', [
-            'user' => $user,
+            'user'  => $user,
             'posts' => $posts,
         ]);
     }
@@ -51,77 +51,70 @@ class PostController extends Controller
     public function postFull(int $id)
     {
         $user = auth()->user();
-        $post = Post::find($id)->with('user.roles', 'subject')->first();
-        // dd($post);
+        $post = Post::with('user.roles', 'subject')->find($id);
+
         return view('pages.postfull', [
-            'post' => $post,
-            'post_id'=>$id,
-            'user' => $user
+            'post'    => $post,
+            'post_id' => $id,
+            'user'    => $user
         ]);
     }
 
     public function postCreateShow()
     {
-
-        $user = auth()->user();
-        $subjects = Subject::get();
         return view('pages.postcreate', [
-            'user' => $user,
-            'subjects' => $subjects
+            'user'     => auth()->user(),
+            'subjects' => Subject::query()->get()
         ]);
     }
+
     public function postCreate(Request $request)
     {
         $subjectName = $request->get('subject_name');
-        $subjectId = Subject::where('name', $subjectName)->first()->id;
+        $subject = Subject::where('name', $subjectName)->first();
         $userId = auth()->user()->id;
-        Post::create([
+        $post = Post::create([
             ...$request->except(['_token', 'subject_name']),
-            'subject_id' => $subjectId,
-            'user_id' => $userId,
+            'subject_id' => $subject->id,
+            'user_id'    => $userId,
         ]);
 
-        return redirect()->route('post.show');
+        return redirect()->route('post.show-full', ['id' => $post->id]);
     }
 
     public function postEditShow(int $id)
     {
-
         $post = Post::find($id);
-        $subject_name = Subject::where('id', $post->subject_id)->first()->name;
         $subjects = Subject::get();
         return view('pages.postedit', [
-            'user' => auth()->user(),
-            'post' => $post,
-            'subject_name' => $subject_name,
-            'subjects' => $subjects
+            'user'         => auth()->user(),
+            'post'         => $post,
+            'subject_name' => $post->subject->name,
+            'subjects'     => $subjects
         ]);
     }
-    public function postEdit(Request $request, int $id)
-    {
-        $userId = auth()->user()->id;
-        // $me = auth()->user()->with('roles')->find($userId);
-        $user = auth()->user()->with('roles')->find($userId);
-        $roleId = $user->roles->first()->name;
-        $post = Post::find($id);
-        // dd($post, $me);
-        $creatorId = $post->user_id;
-        if ($user->id === $creatorId || $roleId === 'admin') {
-            $subject_name = $request->get('subject_name');
-            $subject_id = Subject::where('name', $subject_name)->first()->id;
-            $post->update([
-                ...$request->except(['_token', 'subject_name']),
-                'subject_id' => $subject_id,
-            ]);
-            return redirect()->route('post.show');
-        } else {
-            abort(403);
-        }
 
+    public function postEdit(Request $request, Post $post, EditPostService $service)
+    {
+        $this->authorize('update', $post);
+
+        $dto = new EditPostDto(
+            subjectId: $request->get('subject_id'),
+            title: $request->get('title'),
+            description: $request->get('description'),
+            price: $request->get('price'),
+            deadline: $request->get('deadline'),
+            responce: $request->get('responce'),
+        );
+        $post = $service->run($post, $dto);
+
+        return redirect()->route('post.show-full', ['id' => $post->id]);
     }
 
     public function postDelete(int $id)
     {
+        //
+
         $userId = auth()->user()->id;
         $user = auth()->user()->with('roles')->find($userId);
         $roleId = $user->roles->first()->name;
@@ -136,17 +129,18 @@ class PostController extends Controller
     }
 
 
-    public function postAccept(int $id) {
+    public function postAccept(int $id)
+    {
         $user = auth()->user();
         $userRole = $user->roles->first()->slug;
 //        dd($user->roles->first()->slug==='worker');
-        if ($userRole==='worker' ||  $userRole==='admin') {
+        if ($userRole === 'worker' || $userRole === 'admin') {
             $userId = $user->id;  // executor
             $post = Post::find($id);  // пост, на который делают отклик
             DB::table('post_accept')->insert([
-                'post_id' => $id,
-                'user_id' => $post->user_id,
-                'executor_id'=> $userId,
+                'post_id'     => $id,
+                'user_id'     => $post->user_id,
+                'executor_id' => $userId,
             ]);
             $post->increment('responce', 1);
             return redirect()->route('post.show-full', $id);
@@ -183,11 +177,9 @@ class PostController extends Controller
     // }
 
 
-
     // public function posts() {
     //     $posts = Post::with('user.userRoles.role')->get();
     //     $userRole = Auth::user()->userRoles()->first()->role->name;
-
 
 
     //     return view('pages.posts', [

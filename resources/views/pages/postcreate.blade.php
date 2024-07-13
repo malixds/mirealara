@@ -33,7 +33,7 @@
                             <select name="subject_name" id="countries" class="text-gray-900 text-sm block w-full p-2.5">
 
                                 @foreach ($subjects as $subject)
-                                    <option selected>{{$subject->name}}</option>
+                                    <option value="{{$subject->id}}" selected>{{$subject->name}}</option>
                                 @endforeach
                                 <option selected>Не указан</option>
                             </select>
