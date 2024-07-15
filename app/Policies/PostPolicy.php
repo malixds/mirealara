@@ -14,4 +14,14 @@ class PostPolicy
     {
         return $post->user_id === $user->id || $user->isAdmin();
     }
+
+    public function delete(User $user, Post $post): bool
+    {
+        return $post->user_id === $user->id || $user->isAdmin();
+    }
+
+//    public function accept(User $user): bool
+//    {
+//        return $user->isAdmin() || $user->isWorker();
+//    }
 }

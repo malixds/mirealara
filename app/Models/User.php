@@ -90,5 +90,9 @@ class User extends Authenticatable
     {
         return $this->role->slug = UserRolesEnum::ADMIN->value;
     }
+    public function isWorker(): bool
+    {
+        return $this->role->slug = UserRolesEnum::WORKER->value;
+    }
 }
 

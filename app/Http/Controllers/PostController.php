@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 
+use App\Dto\Post\AcceptPostDto;
+use App\Dto\Post\DeletePostDto;
 use App\Dto\Post\EditPostDto;
 use App\Models\Post;
 use App\Models\Subject;
 use App\Models\User;
+use App\Services\Post\AcceptPostService;
+use App\Services\Post\DeletePostService;
 use App\Services\Post\EditPostService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,8 +25,8 @@ class PostController extends Controller
         $subjects = Subject::get();
         // dd($subjects->first());
         return view('pages.posts', [
-            'user'     => $user,
-            'posts'    => $posts,
+            'user' => $user,
+            'posts' => $posts,
             'subjects' => $subjects,
         ]);
     }
@@ -43,7 +47,7 @@ class PostController extends Controller
             $posts = Post::with('user.roles', 'subject')->get();
         }
         return view('pages.postsearch', [
-            'user'  => $user,
+            'user' => $user,
             'posts' => $posts,
         ]);
     }
@@ -54,16 +58,16 @@ class PostController extends Controller
         $post = Post::with('user.roles', 'subject')->find($id);
 
         return view('pages.postfull', [
-            'post'    => $post,
+            'post' => $post,
             'post_id' => $id,
-            'user'    => $user
+            'user' => $user
         ]);
     }
 
     public function postCreateShow()
     {
         return view('pages.postcreate', [
-            'user'     => auth()->user(),
+            'user' => auth()->user(),
             'subjects' => Subject::query()->get()
         ]);
     }
@@ -76,7 +80,7 @@ class PostController extends Controller
         $post = Post::create([
             ...$request->except(['_token', 'subject_name']),
             'subject_id' => $subject->id,
-            'user_id'    => $userId,
+            'user_id' => $userId,
         ]);
 
         return redirect()->route('post.show-full', ['id' => $post->id]);
@@ -87,17 +91,15 @@ class PostController extends Controller
         $post = Post::find($id);
         $subjects = Subject::get();
         return view('pages.postedit', [
-            'user'         => auth()->user(),
-            'post'         => $post,
+            'user' => auth()->user(),
+            'post' => $post,
             'subject_name' => $post->subject->name,
-            'subjects'     => $subjects
+            'subjects' => $subjects
         ]);
     }
 
     public function postEdit(Request $request, Post $post, EditPostService $service)
     {
-        $this->authorize('update', $post);
-
         $dto = new EditPostDto(
             subjectId: $request->get('subject_id'),
             title: $request->get('title'),
@@ -111,43 +113,28 @@ class PostController extends Controller
         return redirect()->route('post.show-full', ['id' => $post->id]);
     }
 
-    public function postDelete(int $id)
+    public function postDelete(Post $post)
     {
-        //
+        // make policy logic -> we should make dto for this and some service
+        $this->authorize('delete', [auth()->user(), $post]);
+        $post->delete();
 
-        $userId = auth()->user()->id;
-        $user = auth()->user()->with('roles')->find($userId);
-        $roleId = $user->roles->first()->name;
-        $post = Post::find($id);
-        $creatorId = $post->user_id;
-        if ($user->id === $creatorId || $roleId === 'admin') {
-            $post->delete();
-            return redirect()->route('post.show');
-        } else {
-            abort(403);
-        }
+        return redirect()->route('pages.posts');
     }
 
 
-    public function postAccept(int $id)
+    public function postAccept(Post $post, AcceptPostService $service)
     {
-        $user = auth()->user();
-        $userRole = $user->roles->first()->slug;
-//        dd($user->roles->first()->slug==='worker');
-        if ($userRole === 'worker' || $userRole === 'admin') {
-            $userId = $user->id;  // executor
-            $post = Post::find($id);  // пост, на который делают отклик
-            DB::table('post_accept')->insert([
-                'post_id'     => $id,
-                'user_id'     => $post->user_id,
-                'executor_id' => $userId,
-            ]);
-            $post->increment('responce', 1);
-            return redirect()->route('post.show-full', $id);
-        } else {
-            return redirect()->route('user.profile-form', $user->id);
-        }
-        // $post->update
+
+        //dto
+        $dto = new AcceptPostDto(
+            postId: $post->id,
+            userId: $post->user_id,
+            executorId: auth()->user()->id,
+        );
+
+        $post = $service->run($dto, $post);
+        return redirect()->route('post.show-full', $post->id);
     }
 
 

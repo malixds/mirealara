@@ -51,13 +51,9 @@ Route::post('/profile/form/{id}', [ProfileController::class, 'formCreate'])->nam
 Route::post('/delete/subject/{id}', [ProfileController::class, 'formDeleteSubject'])->name('user.profile-form-delete-subject');
 
 
-
-
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
 
 
 Route::get('/posts', [PostController::class, 'posts'])->name('post.show');
@@ -73,11 +69,13 @@ Route::get('/posts/create', [PostController::class, 'postCreateShow'])->name('po
 Route::post('/posts/create', [PostController::class, 'postCreate'])->name('post.create');
 
 Route::get('/posts/edit/{id}', [PostController::class, 'postEditShow'])->name('post.edit-show');
-Route::post('/posts/edit/{post}', [PostController::class, 'postEdit'])->name('post.edit');
+Route::post('/posts/edit/{id}', [PostController::class, 'postEdit'])->name('post.edit');
 
 Route::post('/posts/delete/{id}', [PostController::class, 'postDelete'])->name('post.delete');
 
-Route::put('/posts/accept/{id}', [PostController::class, 'postAccept'])->name('post.accept');
+Route::put('/posts/accept/{id}', [PostController::class, 'postAccept'])
+    ->middleware('userCheck')
+    ->name('post.accept');
 
 // Route::get('/posts/search', [PostController::class, 'postSearch'])->name('post.search');
 
@@ -98,7 +96,6 @@ Route::get('/logout', function () {
     Auth::logout();
     return redirect()->route('main');
 })->name('logout');
-
 
 
 require __DIR__ . '/auth.php';
