@@ -74,7 +74,7 @@ Route::post('/posts/edit/{id}', [PostController::class, 'postEdit'])->name('post
 Route::post('/posts/delete/{id}', [PostController::class, 'postDelete'])->name('post.delete');
 
 Route::put('/posts/accept/{id}', [PostController::class, 'postAccept'])
-    ->middleware('userCheck')
+    ->middleware('user.сheck')
     ->name('post.accept');
 
 // Route::get('/posts/search', [PostController::class, 'postSearch'])->name('post.search');

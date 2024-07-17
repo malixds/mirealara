@@ -26,12 +26,11 @@
                         <div class="mb-4 flex flex-col gap-y-2">
                             <label for="name-2" class="mb-1 font-bold">Title</label>
                             <input name="title" placeholder="Enter the short information" required
-                                class="h-9 w-full bg-[#FAFAFA] px-3 py-6 text-sm text-gray-900"">
+                                class="h-9 w-full bg-[#FAFAFA] px-3 py-6 text-sm text-gray-900">
                         </div>
                         <div class="mb-4 flex flex-col gap-y-2">
                             <label for="name-2" class="mb-1 font-bold">Select subject</label>
-                            <select name="subject_name" id="countries" class="text-gray-900 text-sm block w-full p-2.5">
-
+                            <select name="subject_id" id="countries" class="text-gray-900 text-sm block w-full p-2.5">
                                 @foreach ($subjects as $subject)
                                     <option value="{{$subject->id}}" selected>{{$subject->name}}</option>
                                 @endforeach

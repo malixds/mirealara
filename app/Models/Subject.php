@@ -16,7 +16,7 @@ class Subject extends Model
     protected $guarded = false;
 
 
-    public function posts() : HasMany
+    public function posts() : hasMany
     {
         return $this->hasMany(Post::class);
     }

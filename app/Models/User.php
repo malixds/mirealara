@@ -56,9 +56,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
-    public function role() : HasOne
+    public function roles(): belongsToMany
     {
-        return $this->hasOne(Role::class);
+        return $this->belongsToMany(Role::class, 'user_roles');
     }
 
     public function subjects() : BelongsToMany
@@ -88,11 +88,11 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return $this->role->slug = UserRolesEnum::ADMIN->value;
+        return $this->roles()->slug = UserRolesEnum::ADMIN->value;
     }
     public function isWorker(): bool
     {
-        return $this->role->slug = UserRolesEnum::WORKER->value;
+        return $this->roles()->slug = UserRolesEnum::WORKER->value;
     }
 }
 

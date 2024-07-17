@@ -9,7 +9,8 @@ class EditPostService
 {
     public function run(Post $post, EditPostDto $dto): Post
     {
-        $post->update([$dto->getData()]);
+        $post->update([...$dto->getData()]);
+
         return $post;
     }
 

@@ -2,10 +2,11 @@
 
 namespace App\Dto\Post;
 
-class EditPostDto
+class CreatePostDto
 {
     public function __construct(
-        public readonly string $subjectId,
+        public readonly int $subjectId,
+        public readonly string $userId,
         public readonly string $title,
         public readonly string $description,
         public readonly int    $price,
@@ -14,14 +15,16 @@ class EditPostDto
     {
     }
 
-    public function getData(): array
+    public function getData()
     {
         return [
-            'subject_id'   => $this->subjectId,
-            'title'       => $this->title,
+            'subject_id' => $this->subjectId,
+            'user_id' => $this->userId,
+            'title' => $this->title,
             'description' => $this->description,
-            'price'       => $this->price,
-            'deadline'    => $this->deadline,
+            'price' => $this->price,
+            'deadline' => $this->deadline,
         ];
     }
+
 }

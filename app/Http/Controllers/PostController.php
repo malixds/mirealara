@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Dto\Post\AcceptPostDto;
+use App\Dto\Post\CreatePostDto;
 use App\Dto\Post\DeletePostDto;
 use App\Dto\Post\EditPostDto;
 use App\Models\Post;
@@ -74,13 +75,17 @@ class PostController extends Controller
 
     public function postCreate(Request $request)
     {
-        $subjectName = $request->get('subject_name');
-        $subject = Subject::where('name', $subjectName)->first();
-        $userId = auth()->user()->id;
+//        dd($request);
+        $dto = new CreatePostDto(
+            subjectId: $request->get('subject_id'),
+            userId: auth()->user()->id,
+            title: $request->get('title'),
+            description: $request->get('description'),
+            price: $request->get('price'),
+            deadline: $request->get('deadline'),
+        );
         $post = Post::create([
-            ...$request->except(['_token', 'subject_name']),
-            'subject_id' => $subject->id,
-            'user_id' => $userId,
+            ...$dto->getData()
         ]);
 
         return redirect()->route('post.show-full', ['id' => $post->id]);
@@ -98,7 +103,7 @@ class PostController extends Controller
         ]);
     }
 
-    public function postEdit(Request $request, Post $post, EditPostService $service)
+    public function postEdit(Request $request, int $id, EditPostService $service)
     {
         $dto = new EditPostDto(
             subjectId: $request->get('subject_id'),
@@ -106,20 +111,19 @@ class PostController extends Controller
             description: $request->get('description'),
             price: $request->get('price'),
             deadline: $request->get('deadline'),
-            responce: $request->get('responce'),
         );
-        $post = $service->run($post, $dto);
-
+        $post = $service->run(Post::find($id), $dto);
         return redirect()->route('post.show-full', ['id' => $post->id]);
     }
 
-    public function postDelete(Post $post)
+    public function postDelete(int $id)
     {
         // make policy logic -> we should make dto for this and some service
-        $this->authorize('delete', [auth()->user(), $post]);
+        $post = Post::find($id);
+        $this->authorize('delete', $post);
         $post->delete();
 
-        return redirect()->route('pages.posts');
+        return redirect()->route('post.show');
     }
 
 
