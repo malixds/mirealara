@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Services\Post\AcceptPostService;
 use App\Services\Post\DeletePostService;
 use App\Services\Post\EditPostService;
+use App\Services\Post\SearchPostService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -21,47 +22,30 @@ class PostController extends Controller
 {
     public function posts(Request $request)
     {
-        $user = auth()->user();
-        $posts = Post::with('user.roles', 'subject')->get();
-        $subjects = Subject::get();
-        // dd($subjects->first());
         return view('pages.posts', [
-            'user' => $user,
-            'posts' => $posts,
-            'subjects' => $subjects,
+            'user' => auth()->user(),
+            'posts' => Post::with('user.roles', 'subject')->get(),
+            'subjects' => Subject::get(),
         ]);
     }
 
 
-    public function postSearch(Request $request)
+    public function postSearch(Request $request, SearchPostService $service)
     {
-        $user = auth()->user();
-        $subjectsArr = $request->input('subjects');
-        if ($subjectsArr !== null) {
-            $posts = Post::with('user.roles', 'subject')
-                ->whereHas('subject', function ($query) use ($subjectsArr) {
-                    $query->whereIn('name', $subjectsArr);
-                })
-                ->get();
-        } else {
-            $user = auth()->user();
-            $posts = Post::with('user.roles', 'subject')->get();
-        }
+        $posts = $service->run($request->input('subjects'));
         return view('pages.postsearch', [
-            'user' => $user,
+            'user' => auth()->user(),
             'posts' => $posts,
         ]);
     }
 
     public function postFull(int $id)
     {
-        $user = auth()->user();
-        $post = Post::with('user.roles', 'subject')->find($id);
 
         return view('pages.postfull', [
-            'post' => $post,
+            'post' => Post::with('user.roles', 'subject')->find($id),
             'post_id' => $id,
-            'user' => $user
+            'user' => auth()->user()
         ]);
     }
 
@@ -84,6 +68,7 @@ class PostController extends Controller
             price: $request->get('price'),
             deadline: $request->get('deadline'),
         );
+
         $post = Post::create([
             ...$dto->getData()
         ]);
@@ -94,12 +79,11 @@ class PostController extends Controller
     public function postEditShow(int $id)
     {
         $post = Post::find($id);
-        $subjects = Subject::get();
         return view('pages.postedit', [
             'user' => auth()->user(),
             'post' => $post,
             'subject_name' => $post->subject->name,
-            'subjects' => $subjects
+            'subjects' => Subject::get()
         ]);
     }
 

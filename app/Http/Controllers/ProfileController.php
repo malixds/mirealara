@@ -2,7 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\User\ExecutorsSearchUserDto;
+use App\Dto\User\ExecutorsUserDto;
+use App\Dto\User\FormCreateUserDto;
+use App\Dto\User\FormDeleteSubjectDto;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Services\User\ExecutorProfileUserService;
+use App\Services\User\ExecutorsSearchUserService;
+use App\Services\User\ExecutorsUserService;
+use App\Services\User\FormCreateUserService;
+use App\Services\User\FormDeleteSubjectUserService;
+use App\Services\User\GeneralProfileService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -67,148 +77,70 @@ class ProfileController extends Controller
     }
 
 
-    public function profile(int $id)
+    public function profile(int $id, GeneralProfileService $service)
     {
-        $user = auth()->user();
-        $myPosts = Post::all()->where('user_id', $id);
-//        dd($myPosts);
-        $myTasks = Post::whereHas('post_accept', function ($query) {
-            $query->where('executor_id', auth()->user()->id);
-        })->with(['post_accept' => function ($query) {
-            $query->where('executor_id', auth()->user()->id);
-        }])->get();
-//        dd($myTasks);
         return view('pages.profile', [
-            'user' => $user,
-            'myTasks' => $myTasks,
-            'myPosts' => $myPosts,
+            'user' => auth()->user(),
+            ...$service->run($id)
         ]);
     }
 
     public function formCreateShow(int $id)
     {
-        $user = auth()->user();
 
-        if (!$user) {
-            return redirect()->route('main');
-        }
-        if ($user->id === $id) {
-            $subjectsArr = $user->subjects()->get();
-            // dd($subjectsArr);
-            return view('pages.workerform', [
-                'user' => $user,
-                'subjectsArr' => $subjectsArr
-            ]);
-        } else {
-            return redirect()->route('user.profile-form', $id);
-        }
+        $user = auth()->user();
+        return view('pages.workerform', [
+            'user' => $user,
+            'subjectsArr' => $user->subjects()->get()
+        ]);
     }
 
-    public function formCreate(Request $request, int $id)
+    public function formCreate(Request $request, int $id, FormCreateUserService $service)
     {
-        $user = User::find($id);
-        $subjectsArr = $request->subjects;
-        foreach ($subjectsArr as $subjectName) {
-            $subjectId = Subject::where('name', $subjectName)->first()->id;
-            $exists = DB::table('user_subjects')
-                ->where('user_id', $id)
-                ->where('subject_id', $subjectId)
-                ->exists();
-            if (!$exists) {
-                $user->subjects()->attach($subjectId);
-            }
-        }
-        $user->roles()->updateExistingPivot(2, ['role_id' => 3]);
-        $user->update([
-
-            ...$request->except(['_token', 'subjects'])
-        ]);
+        $dto = new FormCreateUserDto(
+            userId: $id,
+            subjectsArr: $request->subjects,
+            name: $request->name,
+            description: $request->description,
+            email: $request->email,
+            contactLink: $request->contactLink,
+        );
+        $service->run(User::find($id), $dto);
         return redirect()->route('user.profile-form', $id);
     }
 
-    public function formDeleteSubject(int $userSubjectId)
+    public function formDeleteSubject(int $userSubjectId, FormDeleteSubjectUserService $service)
     {
-        // dd($userSubjectId);
-        $userId = auth()->user()->id;
-        DB::table('user_subjects')
-            ->where('user_id', $userId)
-            ->where('subject_id', $userSubjectId)
-            ->delete();
-        return redirect()->route('user.profile-form', $userId);
+        $dto = new FormDeleteSubjectDto(
+            userId: auth()->user()->id,
+            userSubjectId: $userSubjectId
+        );
+        $service->run($dto);
+        return redirect()->route('user.profile-form', auth()->user()->id);
     }
 
-    public function executors()
+    public function executors(ExecutorsUserService $service)
     {
-
-        // $executors = [];
-        $user = auth()->user();
-        // $users = User::with('roles', 'subjects')->get();
-        $executors = User::whereHas('roles', function ($query) {
-            $query->where('slug', 'worker');
-        })->with('subjects')->get();
-
-        // dd($workers);
-        $subjects = Subject::get();
-        // dd($users);
-        // foreach ($users as $key => $user) {
-        //     if ($user->roles->first()->slug) {
-        //         dd($user);
-        //     }
-        //     if ($user->roles->first()->slug === 'worker') {
-        //         $executors[] = $user;
-        //     }
-        // }
-        // dd($executors);
-        return view('pages.executors', [
-            'executors' => $executors,
-            'subjects' => $subjects,
-            'user' => $user,
-        ]);
+        return view('pages.executors', $service->run());
     }
 
-    public function executorSearch(Request $request)
+    public function executorSearch(Request $request, ExecutorsSearchUserService $service)
     {
         // dd('hello');
-        $user = auth()->user();
-        $subjectsRequest = $request->input('subjects');
-        $subjects = Subject::get();
-        $executors = [];
-        if ($subjectsRequest !== null) {
-            $users = User::with('roles', 'subjects')
-                ->whereHas('subjects', function ($query) use ($subjectsRequest) {
-                    $query->whereIn('name', $subjectsRequest);
-                })
-                ->get();
-            foreach ($users as $user) {
-                if ($user->roles->first()->slug === 'worker') {
-                    $executors[] = $user;
-                }
-            }
-        } else {
-            $executors = User::whereHas('roles', function ($query) {
-                $query->where('slug', 'worker');
-            })->with('subjects')->get();
-        }
-        return view('pages.executorsearch', [
-            'executors' => $executors,
-            'subjects' => $subjects,
-            'user' => $user,
-        ]);
+        $dto = new ExecutorsSearchUserDto(
+            subjectsFromRequest:$request->input('subjects'),
+            subjects: Subject::get(),
+        );
+        return view('pages.executorsearch', $service->run($dto));
 
     }
 
-    public function executorProfile(int $id)
+    public function executorProfile(int $id, ExecutorProfileUserService $service)
     {
-        $user = auth()->user();
-        $executor = User::find($id);
-        $executorsId = User::whereHas('roles', function ($query) {
-            $query->where('slug', 'worker');
-        })->pluck('id')->toArray();
-//        dd($executorsId);
-        if (in_array($id, $executorsId)) {
+        if ($service->run($id)) {
             return view(('pages.executorprofile'), [
-                'executor' => $executor,
-                'user' => $user,
+                'executor' => User::find($id),
+                'user' => auth()->user(),
             ]);
         } else {
             abort(404);
@@ -223,7 +155,7 @@ class ProfileController extends Controller
         dd($inbox);
 
         return view('pages.inbox', [
-                'user' => $user,
-            ]);
+            'user' => $user,
+        ]);
     }
 }

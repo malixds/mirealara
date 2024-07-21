@@ -46,7 +46,9 @@ Route::get('/', function () {
 
 // Route::get('/profile/orders')
 Route::get('/profile/{id}', [ProfileController::class, 'profile'])->name('user.profile');
-Route::get('/profile/form/{id}', [ProfileController::class, 'formCreateShow'])->name('user.profile-form');
+Route::get('/profile/form/{id}', [ProfileController::class, 'formCreateShow'])
+    ->middleware('user.taskCreate')
+    ->name('user.profile-form');
 Route::post('/profile/form/{id}', [ProfileController::class, 'formCreate'])->name('user.profile-form-create');
 Route::post('/delete/subject/{id}', [ProfileController::class, 'formDeleteSubject'])->name('user.profile-form-delete-subject');
 
