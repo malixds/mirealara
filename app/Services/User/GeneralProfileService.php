@@ -6,15 +6,11 @@ use App\Models\Post;
 
 class GeneralProfileService
 {
-    public function run(int $id): array
+    public function run(): array
     {
-        $myPosts = Post::all()->where('user_id', $id);
-        $myTasks = Post::whereHas('post_accept', function ($query) {
-            $query->where('executor_id', auth()->user()->id);
-        })->with(['post_accept' => function ($query) {
-            $query->where('executor_id', auth()->user()->id);
-        }])->get();
-        return [$myPosts, $myTasks];
+        return [
+            'myPosts' => auth()->user()->posts,
 
+        ];
     }
 }

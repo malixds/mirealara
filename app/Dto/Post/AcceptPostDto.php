@@ -16,10 +16,9 @@ class AcceptPostDto
     public function getData(): array
     {
         return [
-            'postId' => $this->postId,
-            'userId' => $this->userId,
-            '$executorId' => $this->executorId
+            'post_id' => $this->postId,
+            'user_id' => $this->userId,
+            'executor_id' => $this->executorId
         ];
-
     }
 }

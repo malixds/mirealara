@@ -97,3 +97,14 @@
     width: 6px;
     top: 10px;
   } */
+
+
+.chat{
+    height: 100px;
+    cursor: pointer;
+
+}
+.line {
+    height: 2px;
+    background-color: #000;
+}

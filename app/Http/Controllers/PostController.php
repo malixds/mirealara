@@ -113,7 +113,6 @@ class PostController extends Controller
 
     public function postAccept(Post $post, AcceptPostService $service)
     {
-
         //dto
         $dto = new AcceptPostDto(
             postId: $post->id,

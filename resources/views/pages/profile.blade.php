@@ -1,9 +1,7 @@
 @extends('layouts.default')
 
 @section('content')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    </section>
     <div class="max-w-7xl px-5 py-16 md:px-10 md:py-16 lg:py-24 mx-auto">
         <header class="w-full">
             <!-- Container -->
@@ -17,6 +15,7 @@
                             <h2 class="mb-4 text-3xl font-semibold md:text-5xl">
                                 <span
                                     class="bg-cover bg-center px-4 text-white bg-[ background-image: url('https://assets.website-files.com/63904f663019b0d8edf8d57c/6391a5b04f2836ad87dcc3bc_Rectangle%20773.svg')]">Your Profile
+                                </span>
                             </h2>
                             <div class="mx-auto max-w-[630px]">
                                 <p class="text-[#e0e0e0]">
@@ -26,7 +25,7 @@
                         </div>
                         <!-- CTA -->
                         @if ($user)
-                            @if ($user->roles()->first()->slug !== 'worker')
+                            @if ($user->isWorker())
                                 <div class="mx-auto max-w-3xl text-center">
                                     <h1>Вы не можете выполнять задания для этого заполните анкету</h1>
                                     <a href="{{ route('user.profile-form', $user->id) }}"
@@ -133,8 +132,8 @@
                         <p class="mb-4 text-xl font-semibold">
                             {{ $task->title }}
                         </p>
-                        @if (auth()->user() != null)
-                            @if ($task->user->id == $user->id || $user->roles->first()->name === 'admin')
+                        @if (auth()->user() !== null)
+                            @if ($task->user->id == $user->id || $user->isAdmin())
                                 <a href="{{ route('post.edit-show', $task->id) }}"><i
                                         class="mt-1 fa-solid fa-pen-to-square"></i>edit</a>
                                 <form class="inline" action="{{ route('post.delete', $task->id) }}" method="POST">

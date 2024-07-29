@@ -20,15 +20,12 @@ class UserSeeder extends Seeder
         $faker = Faker::create();
         $admin = Role::create([
             'name' => UserRolesEnum::ADMIN->value,
-            'slug' => UserRolesEnum::ADMINSLUG->value,
         ]);
         $regular = Role::create([
             'name' => UserRolesEnum::REGULAR->value,
-            'slug' => UserRolesEnum::REGULARSLUG->value,
         ]);
         $worker = Role::create([
             'name' => UserRolesEnum::WORKER->value,
-            'slug' => UserRolesEnum::WORKERSLUG->value,
         ]);
 
         foreach (range(1, 10) as $index) {

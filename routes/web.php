@@ -47,7 +47,7 @@ Route::get('/', function () {
 // Route::get('/profile/orders')
 Route::get('/profile/{id}', [ProfileController::class, 'profile'])->name('user.profile');
 Route::get('/profile/form/{id}', [ProfileController::class, 'formCreateShow'])
-    ->middleware('user.taskCreate')
+    ->middleware('user.check')
     ->name('user.profile-form');
 Route::post('/profile/form/{id}', [ProfileController::class, 'formCreate'])->name('user.profile-form-create');
 Route::post('/delete/subject/{id}', [ProfileController::class, 'formDeleteSubject'])->name('user.profile-form-delete-subject');
@@ -75,8 +75,8 @@ Route::post('/posts/edit/{id}', [PostController::class, 'postEdit'])->name('post
 
 Route::post('/posts/delete/{id}', [PostController::class, 'postDelete'])->name('post.delete');
 
-Route::put('/posts/accept/{id}', [PostController::class, 'postAccept'])
-    ->middleware('user.сheck')
+Route::put('/posts/accept/{post}', [PostController::class, 'postAccept'])
+    ->middleware('user.check')
     ->name('post.accept');
 
 // Route::get('/posts/search', [PostController::class, 'postSearch'])->name('post.search');
@@ -87,17 +87,20 @@ Route::post('/executors/search', [ProfileController::class, 'executorSearch'])->
 Route::get('/executor/{id}', [ProfileController::class, 'executorProfile'])->name('executor.profile');
 
 
-Route::get('/inbox/{id}', [ProfileController::class, 'inbox'])->name('inbox');
+Route::get('/inbox/{id}', [ProfileController::class, 'inbox'])->name('user.inbox');
 
-Route::get('/chat', [ChatController::class, 'chat'])->name('chat');
+
+Route::get('/chat/{id}', [ChatController::class, 'chat'])->name('chat');
 Route::get('/chat/messages', [ChatController::class, 'chatMessages'])->name('chat.messages');
 Route::post('/chat/send', [ChatController::class, 'chatSend'])->name('chat.send');
+
+
 
 
 Route::get('/logout', function () {
     Auth::logout();
     return redirect()->route('main');
-})->name('logout');
+})->name('user.logout');
 
 
 require __DIR__ . '/auth.php';

@@ -4,9 +4,11 @@ import axios from "axios";
 export default function useChat() {
     const messages = ref([]);
     const errors = ref([]);
+    let chatId;
     const getMessage = async () => {
         await axios.get('/chat/messages').then((response) => {
             messages.value = response.data
+            // let chatId = chat id
         })
     }
 
@@ -14,7 +16,7 @@ export default function useChat() {
         console.log('form with message', form, form.value, form.message) // отрабатывае
         errors.value = [];
         try {
-            await axios.post('/chat/send', form).then((response) => {
+            await axios.post(`/chat/send/${chatId}`, form).then((response) => {
                 messages.value.push(response.data);
                 console.log('resp data', messages);
             })

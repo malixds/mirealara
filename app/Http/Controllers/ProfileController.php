@@ -77,11 +77,12 @@ class ProfileController extends Controller
     }
 
 
-    public function profile(int $id, GeneralProfileService $service)
+    public function profile()
     {
         return view('pages.profile', [
             'user' => auth()->user(),
-            ...$service->run($id)
+            'myPosts' => auth()->user()->posts,
+            'myTasks' => auth()->user()->tasks,
         ]);
     }
 
@@ -151,11 +152,15 @@ class ProfileController extends Controller
     public function inbox(int $id)
     {
         $user = User::find($id);
-        $inbox = $user->inboxes()->get();
-        dd($inbox);
+        $inbox = $user->inbox()->first();
+        $chats = $inbox->chats()->get();
+        $chat = $inbox->chats()->first();
+        $messages = $chat->messages()->get();
+//        dd($messages);
 
         return view('pages.inbox', [
             'user' => $user,
+            'chats' => $chats
         ]);
     }
 }
