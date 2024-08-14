@@ -17,6 +17,7 @@
 
         <div class="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch">
             <chat-messages :user="{{ auth()->user() }}"></chat-messages>
+            alskdjlajsdlajsd
         </div>
 
         <div class="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0">

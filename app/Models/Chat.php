@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Database\Factories\ChatFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $sender_id
@@ -44,7 +45,7 @@ class Chat extends Model
 
     public function users() : belongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'chats_users');
     }
 
     public function messages() : HasMany
@@ -55,5 +56,10 @@ class Chat extends Model
     public function inboxes() : belongsToMany
     {
         return $this->belongsToMany(Inbox::class);
+    }
+
+    protected static function newFactory()
+    {
+        return new ChatFactory();
     }
 }

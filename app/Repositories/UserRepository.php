@@ -12,6 +12,7 @@ class UserRepository implements IUserRepository
     public function create(array $data): void
     {
         // TODO: Implement create() method.
+        User::query()->create($data);
     }
 
     public function update(int $id, array $data): void

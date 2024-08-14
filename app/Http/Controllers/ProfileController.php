@@ -12,7 +12,6 @@ use App\Services\User\ExecutorsSearchUserService;
 use App\Services\User\ExecutorsUserService;
 use App\Services\User\FormCreateUserService;
 use App\Services\User\FormDeleteSubjectUserService;
-use App\Services\User\GeneralProfileService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -88,7 +87,6 @@ class ProfileController extends Controller
 
     public function formCreateShow(int $id)
     {
-
         $user = auth()->user();
         return view('pages.workerform', [
             'user' => $user,
@@ -151,6 +149,7 @@ class ProfileController extends Controller
 
     public function inbox(int $id)
     {
+
         $user = User::find($id);
         $inbox = $user->inbox()->first();
         $chats = $inbox->chats()->get();

@@ -4,29 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Events\MessageSent;
 use App\Http\Requests\MessageFormRequest;
+use App\Models\Chat;
 use App\Models\Message;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Ramsey\Collection\Collection;
+
 
 class ChatController extends Controller
 {
-    public function chat(int $id): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    public function chats()
     {
-        $user = auth()->user();
-//        dd($user);
-        $inbox = $user->inbox()->first();
-//        dd($inbox);
-        $chats = $inbox->chats()->get();
-        $chat = $inbox->chats()->first();
-//        dd($chat);
-        $messages = $chat->messages()->get();
-//        dd($messages);
+        auth()->login(User::find(2));
+        $chats = auth()->user()->chats;
+
+
+        return view('pages.inbox', [
+            'chats' => $chats,
+            'user' => auth()->user()
+        ]);
+    }
+
+    public function chat(Chat $chat)
+    {
+
+//        dd($chat->messages()->with('user')->get());
+//        $messages = $chat->messages()->with('user')->paginate();
+//        return view('pages.chat', compact('messages'));
+        $messages = $chat->messages()->with('user')->get();
+
         return view('pages.chat', [
-            'user' => $user,
-            'chatId' => $chat->id
-//            'messages' => $messages
+            'messages' => $messages
         ]);
     }
     public function chatMessages(int $id): \Illuminate\Http\JsonResponse|array|\Illuminate\Database\Eloquent\Collection

@@ -10,6 +10,7 @@ use App\Dto\Post\EditPostDto;
 use App\Models\Post;
 use App\Models\Subject;
 use App\Models\User;
+use App\Repositories\PostRepository;
 use App\Services\Post\AcceptPostService;
 use App\Services\Post\DeletePostService;
 use App\Services\Post\EditPostService;
@@ -20,6 +21,13 @@ use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
+
+    protected $repository;
+
+    public function __construct(PostRepository $repository)
+    {
+        $this->repository = $repository;
+    }
     public function posts(Request $request)
     {
         return view('pages.posts', [
@@ -59,7 +67,6 @@ class PostController extends Controller
 
     public function postCreate(Request $request)
     {
-//        dd($request);
         $dto = new CreatePostDto(
             subjectId: $request->get('subject_id'),
             userId: auth()->user()->id,
@@ -69,16 +76,14 @@ class PostController extends Controller
             deadline: $request->get('deadline'),
         );
 
-        $post = Post::create([
-            ...$dto->getData()
-        ]);
+        $post = $this->repository->create($dto->getData());
 
         return redirect()->route('post.show-full', ['id' => $post->id]);
     }
 
     public function postEditShow(int $id)
     {
-        $post = Post::find($id);
+        $post = $this->repository->find($id);
         return view('pages.postedit', [
             'user' => auth()->user(),
             'post' => $post,
@@ -96,14 +101,14 @@ class PostController extends Controller
             price: $request->get('price'),
             deadline: $request->get('deadline'),
         );
-        $post = $service->run(Post::find($id), $dto);
+        $post = $service->run($this->repository->find($id), $dto);
         return redirect()->route('post.show-full', ['id' => $post->id]);
     }
 
     public function postDelete(int $id)
     {
         // make policy logic -> we should make dto for this and some service
-        $post = Post::find($id);
+        $post = $this->repository->find($id);
         $this->authorize('delete', $post);
         $post->delete();
 

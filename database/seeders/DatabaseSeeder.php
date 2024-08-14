@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         (new SubjectSeeder())->run();
         (new UserSeeder())->run();
         (new PostSeeder())->run();
+        (new ChatSeeder())->run();
 
         // \App\Models\User::factory(10)->create();
 

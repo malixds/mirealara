@@ -5,7 +5,7 @@ console.log('selector', selector);
 $(document).ready(function () {
     $('#posts__selector').on('change', function () {
         let selectedValues = $(this).val();
-        console.log(selectedValues);
+        console.log('asdas', selectedValues);
         let url = '/posts/search'
         $.ajax({
             headers: {
@@ -17,7 +17,7 @@ $(document).ready(function () {
                 subjects: selectedValues,
             },
             success: function (response) {
-                console.log(response);
+                console.log('228', response);
                 $('#posts-container').html(response);
             }
         })

@@ -3,12 +3,13 @@
 namespace App\Services\Post;
 
 use App\Models\Post;
+use Illuminate\Database\Eloquent\Collection;
 
 class SearchPostService
 {
 
 
-    public function run($subjectsArr): array
+    public function run($subjectsArr): Collection
     {
         if ($subjectsArr !== null) {
             $posts = Post::with('user.roles', 'subject')

@@ -13,11 +13,6 @@ return new class extends Migration
     {
         Schema::create('chats', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('sender_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->foreignId('received_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->foreignId('inbox_id')->references('id')->on('inboxes')->cascadeOnDelete();
-            $table->text('last_message');
-            $table->integer('unseen_number')->nullable();
             $table->timestamps();
         });
     }

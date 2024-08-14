@@ -45,10 +45,10 @@
         <div class="mt-14 flex flex-col space-y-8 lg:mt-0 lg:flex lg:flex-row lg:space-x-1 lg:space-y-0"
              x-bind:class="isOpen ? 'show' : 'hidden'">
             <!-- DROPDOWN -->
-            @if($user)
-                <a href="{{route('user.profile', $user->id)}}"
+            @if(auth()->user())
+                <a href="{{route('user.profile', auth()->id())}}"
                    class="profile__link-header relative font-inter font-medium rounded-lg pb-8 lg:px-6 lg:py-4 lg:pb-0 lg:hover:bg-gray-50 lg:hover:text-gray-800">Profile</a>
-                <a href="{{route('user.inbox', $user->id)}}"
+                <a href="{{route('user.inbox', auth()->id())}}"
                    class="profile__link-header relative font-inter font-medium rounded-lg pb-8 lg:px-6 lg:py-4 lg:pb-0 lg:hover:bg-gray-50 lg:hover:text-gray-800">Messages</a>
             @endif
 
@@ -62,7 +62,7 @@
         <!-- MENU CONTENT 2 -->
         <div class="flex flex-col space-y-8 lg:flex lg:flex-row lg:space-x-3 lg:space-y-0"
              x-bind:class="isOpen ? 'show' : 'hidden'">
-            @if (!$user)
+            @if (!auth()->user())
                 <a href="{{ route('register') }}"
                    class="font-inter rounded-lg lg:px-6 lg:py-4 lg:hover:bg-gray-50 lg:hover:text-gray-800">Sign
                     Up</a>

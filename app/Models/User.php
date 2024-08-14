@@ -135,14 +135,14 @@ class User extends Authenticatable
         return $this->hasMany(Message::class);
     }
 
-    public function inbox(): hasOne
+    public function inbox(): HasOne
     {
         return $this->hasOne(Inbox::class);
     }
 
-    public function chats(): hasMany
+    public function chats(): BelongsToMany
     {
-        return $this->hasMany(Chat::class);
+        return $this->belongsToMany(Chat::class, 'chats_users');
     }
 
     public function isAdmin(): bool
