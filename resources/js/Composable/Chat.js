@@ -6,8 +6,9 @@ export default function useChat() {
     const errors = ref([]);
     let chatId;
     const getMessage = async () => {
-        await axios.get('/chat/messages').then((response) => {
+        await axios.get(`/chat/messages/${chatId}`).then((response) => {
             messages.value = response.data
+            console.log('message', messages);
             // let chatId = chat id
         })
     }

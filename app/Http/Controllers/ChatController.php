@@ -15,8 +15,6 @@ class ChatController extends Controller
     {
         auth()->login(User::find(2));
         $chats = auth()->user()->chats;
-
-
         return view('pages.inbox', [
             'chats' => $chats,
             'user' => auth()->user()
@@ -29,12 +27,14 @@ class ChatController extends Controller
 //        dd($chat->messages()->with('user')->get());
 //        $messages = $chat->messages()->with('user')->paginate();
 //        return view('pages.chat', compact('messages'));
+        auth()->login(User::find(2));
         $messages = $chat->messages()->with('user')->get();
-
         return view('pages.chat', [
+            'user' => auth()->user(),
             'messages' => $messages
         ]);
     }
+
     public function chatMessages(int $id): \Illuminate\Http\JsonResponse|array|\Illuminate\Database\Eloquent\Collection
     {
         return Message::query()
@@ -50,6 +50,7 @@ class ChatController extends Controller
             ->chats()
             ->messages()
             ->create($request->validated());
+
 
         broadcast(new MessageSent($request->user(), $message));
         dump($message);

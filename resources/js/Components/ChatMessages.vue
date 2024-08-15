@@ -1,11 +1,8 @@
 <template>
 <!--    {{messages}}-->
     {{user}}
-
-    <div class="chat-message" v-for="message in messages" >
-        {{user.id}} asdasd
+    <div class="chat-message" v-for="message in messages">
         <br>
-        {{message.user_id}} bbb
         <div class="flex items-end" :class="{'justify-end': message.user_id === user.id}">
             <div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2" :class="{'items-end': message.user_id !== user.id, 'items-start': message.user_id === user.id}">
                 <div>

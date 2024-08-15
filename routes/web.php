@@ -87,12 +87,11 @@ Route::post('/executors/search', [ProfileController::class, 'executorSearch'])->
 Route::get('/executor/{id}', [ProfileController::class, 'executorProfile'])->name('executor.profile');
 
 
-Route::get('/inbox/{id}', [ProfileController::class, 'inbox'])->name('user.inbox');
-
+//Route::get('/inbox/{id}', [ProfileController::class, 'inbox'])->name('user.inbox');
 
 Route::get('/chats', [ChatController::class, 'chats'])->name('chats');
 Route::get('/chat/{chat}', [ChatController::class, 'chat'])->name('chat');
-Route::get('/chat/messages', [ChatController::class, 'chatMessages'])->name('chat.messages');
+Route::get('/chat/messages/{chat}', [ChatController::class, 'chatMessages'])->name('chat.messages');
 Route::post('/chat/send', [ChatController::class, 'chatSend'])->name('chat.send');
 
 

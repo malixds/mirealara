@@ -25,7 +25,6 @@
         <div class="chat" id="chat">
             @yield('chat')
         </div>
-        @include('includes.footer')
     </div>
     <script src="https://kit.fontawesome.com/ca0dc65707.js" crossorigin="anonymous"></script>
 {{--    <script src="../path/to/flowbite/dist/flowbite.min.js"></script>--}}

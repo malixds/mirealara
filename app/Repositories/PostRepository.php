@@ -7,7 +7,7 @@ use App\Models\Post;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
-class PostRepository implements IPostRepository
+class   PostRepository implements IPostRepository
 {
 
     public function create(array $data): Post

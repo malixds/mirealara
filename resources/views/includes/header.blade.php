@@ -48,7 +48,7 @@
             @if(auth()->user())
                 <a href="{{route('user.profile', auth()->id())}}"
                    class="profile__link-header relative font-inter font-medium rounded-lg pb-8 lg:px-6 lg:py-4 lg:pb-0 lg:hover:bg-gray-50 lg:hover:text-gray-800">Profile</a>
-                <a href="{{route('user.inbox', auth()->id())}}"
+                <a href="{{route('chats', auth()->id())}}"
                    class="profile__link-header relative font-inter font-medium rounded-lg pb-8 lg:px-6 lg:py-4 lg:pb-0 lg:hover:bg-gray-50 lg:hover:text-gray-800">Messages</a>
             @endif
 
