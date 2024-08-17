@@ -90,9 +90,10 @@ Route::get('/executor/{id}', [ProfileController::class, 'executorProfile'])->nam
 //Route::get('/inbox/{id}', [ProfileController::class, 'inbox'])->name('user.inbox');
 
 Route::get('/chats', [ChatController::class, 'chats'])->name('chats');
+Route::get('/chat/create/{post}', [ChatController::class, 'chatCreate'])->name('chat.create');
 Route::get('/chat/{chat}', [ChatController::class, 'chat'])->name('chat');
 Route::get('/chat/messages/{chat}', [ChatController::class, 'chatMessages'])->name('chat.messages');
-Route::post('/chat/send', [ChatController::class, 'chatSend'])->name('chat.send');
+Route::post('/chat/send/{id}', [ChatController::class, 'chatSend'])->name('chat.send');
 
 
 

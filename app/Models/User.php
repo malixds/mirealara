@@ -140,9 +140,29 @@ class User extends Authenticatable
         return $this->hasOne(Inbox::class);
     }
 
-    public function chats(): BelongsToMany
+//    public function chats(): BelongsToMany
+//    {
+//        return $this->belongsToMany(Chat::class, 'chats_users');
+//    }
+//    public function chatsAsBuddy(): BelongsToMany
+//    {
+//        return $this->belongsToMany(Chat::class, 'chats_users', 'buddy_id', 'chat_id');
+//    }
+
+    public function allChats()
     {
-        return $this->belongsToMany(Chat::class, 'chats_users');
+        // Получаем чаты, где пользователь является user_id
+        $chatsAsUser = $this->belongsToMany(Chat::class, 'chats_users', 'user_id', 'chat_id')
+            ->withPivot('buddy_id')
+            ->get();
+
+        // Получаем чаты, где пользователь является buddy_id
+        $chatsAsBuddy = $this->belongsToMany(Chat::class, 'chats_users', 'buddy_id', 'chat_id')
+            ->withPivot('user_id')
+            ->get();
+
+        // Объединяем коллекции и удаляем дубликаты
+        return $chatsAsUser->merge($chatsAsBuddy)->unique('id');
     }
 
     public function isAdmin(): bool

@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Enums\SubjectEnum;
 use App\Enums\UserRolesEnum;
+use App\Models\Subject;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
@@ -39,6 +41,7 @@ class UserSeeder extends Seeder
                 $user->roles()->attach($admin);
             } else if ($user->id % 2 === 0) {
                 $user->roles()->attach($worker);
+                $user->subjects()->attach(1);
             } else {
                 $user->roles()->attach($regular);
             }

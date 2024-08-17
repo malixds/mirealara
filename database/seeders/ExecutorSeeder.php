@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Post;
 use Faker\Factory as Faker;
-class PostSeeder extends Seeder
+class ExecutorSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -19,7 +19,7 @@ class PostSeeder extends Seeder
             Post::create([
                 'title'=> $faker->title(),
                 'description'=> $faker->text(),
-                'user_id'=> $index,
+                'user_id'=> rand(1,3),
                 'subject_id'=> rand(1, 7),
                 'price'=> 1000,
                 'deadline' => $faker->date(),
