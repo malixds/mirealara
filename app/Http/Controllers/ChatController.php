@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\Chat\SendMessageDto;
 use App\Events\MessageSent;
 use App\Http\Requests\MessageFormRequest;
 use App\Models\Chat;
 use App\Models\Message;
 use App\Models\Post;
 use App\Models\User;
+use App\Services\Chat\SendMessageService;
 
 
 class ChatController extends Controller
@@ -42,16 +44,15 @@ class ChatController extends Controller
             return redirect()->route('chat', Chat::find($chatId));
         }
         $chat = Chat::create();
-        auth()->user()->allChats()->attach($chat->id, [
+        auth()->user()->chatsOnlyUser()->attach($chat->id, [
             'buddy_id' => $post->user->id
         ]);
         return redirect()->route('chat', $chat);
-
     }
 
     public function chats()
     {
-        $chats = auth()->user()->allChats;
+        $chats = auth()->user()->allChats()->all();
         return view('pages.inbox', [
             'chats' => $chats,
             'user' => auth()->user()
@@ -79,16 +80,16 @@ class ChatController extends Controller
             ->get();
     }
 
-    public function chatSend(int $id, MessageFormRequest $request)
+    public function chatSend(int $id, MessageFormRequest $request, SendMessageService $service)
     {
-//        $userId = Chat::find($id)->users()->pluck('user_id')[0];
-//        $chat = $request->user()->chats()->find($id); // Получаем конкретный чат
-//        if ($chat == null) {
-//            $chat = $request->user()->chatsAsBuddy;
-//        }
+        $dto = new SendMessageDto(
+            chatId: $id,
+            userId: $request->user()->id,
+            message: $request->input('message'),
+        );
         $chat = auth()->user()->allChats()->find($id);
-//        dd($chat);
         if ($chat) {
+            $message = $service->run($dto, $request, $chat);
             $message = $chat->messages()->create([
                     'message' => $request->input('message'), // текст сообщения
                     'user_id' => $request->user()->id, // ID пользователя
@@ -106,7 +107,6 @@ class ChatController extends Controller
 //            ->create($request->validated());
 //        dd($message);
         broadcast(new MessageSent($request->user(), $message));
-        dump($message);
         return $message;
     }
 }

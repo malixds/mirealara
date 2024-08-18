@@ -140,10 +140,10 @@ class User extends Authenticatable
         return $this->hasOne(Inbox::class);
     }
 
-//    public function chats(): BelongsToMany
-//    {
-//        return $this->belongsToMany(Chat::class, 'chats_users');
-//    }
+    public function chatsOnlyUser(): BelongsToMany
+    {
+        return $this->belongsToMany(Chat::class, 'chats_users');
+    }
 //    public function chatsAsBuddy(): BelongsToMany
 //    {
 //        return $this->belongsToMany(Chat::class, 'chats_users', 'buddy_id', 'chat_id');
