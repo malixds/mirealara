@@ -9,10 +9,18 @@ use App\Models\Message;
 
 class SendMessageService
 {
-    public function run(SendMessageDto $dto, MessageFormRequest $request, Chat $chat): \Illuminate\Database\Eloquent\Model
+    public function run(SendMessageDto $dto, MessageFormRequest $request, int $id): \Illuminate\Http\JsonResponse | \App\Models\Message
     {
-        $dto = $dto->getData();
-        return $chat->messages()->create($dto + $request->validated());
+        {
+            $chat = auth()->user()->allChats()->find($id);
+            if ($chat) {
+                $message = new Message($dto->getData() + $request->validated());
+                $chat->messages()->save($message);
+                return $message;
+            } else {
+                return response()->json(['error' => 'Chat not found'], 404);
+            }
+        }
     }
 
 }

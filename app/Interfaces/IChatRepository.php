@@ -10,4 +10,8 @@ interface IChatRepository
 
     public function delete();
 
+    public function find(int $id);
+
+    public function get();
+
 }

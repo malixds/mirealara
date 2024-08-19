@@ -24,9 +24,6 @@
                 @foreach ($subjects as $subject)
                 <option value="{{$subject->name}}">{{$subject->name}}</option>
                 @endforeach
-                <option value="Математика">Математика</option>
-                <option value="Литература">Литература</option>
-                <option value="Русский язык">История</option>
             </select>
         </div>
         <!-- Features Div -->
