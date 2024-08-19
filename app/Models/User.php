@@ -180,9 +180,9 @@ class User extends Authenticatable
         return $this->hasMany(Review::class, 'reviewer_id');
     }
 
-    public function reviewsReceived(): MorphMany
+    public function reviewsReceived(): HasMany
     {
-        return $this->morphMany(Review::class, 'reviewable');
+        return $this->HasMany(Review::class, 'reviewed_id');
     }
 }
 

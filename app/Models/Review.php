@@ -11,10 +11,11 @@ class Review extends Model
 {
     use HasFactory;
 
-    public function user(): morphTo
+    protected $guarded = false;
+    public function user(): belongsTo
     // Получить модель (пользователя), к которому привязан отзыв.
     {
-        return $this->morphTo();
+        return $this->belongsTo(User::class, 'reviewed_id');
     }
 
     // Получить пользователя, который оставил отзыв.

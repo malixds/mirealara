@@ -3,6 +3,7 @@
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -85,6 +86,9 @@ Route::put('/posts/accept/{post}', [PostController::class, 'postAccept'])
 Route::get('/executors', [ProfileController::class, 'executors'])->name('executors');
 Route::post('/executors/search', [ProfileController::class, 'executorSearch'])->name('executor.search');
 Route::get('/executor/{id}', [ProfileController::class, 'executorProfile'])->name('executor.profile');
+
+
+ROute::post('/review/send/{executor}', [ReviewController::class, 'reviewSend'])->name('review.send');
 
 
 //Route::get('/inbox/{id}', [ProfileController::class, 'inbox'])->name('user.inbox');

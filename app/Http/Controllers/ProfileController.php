@@ -7,6 +7,7 @@ use App\Dto\User\ExecutorsUserDto;
 use App\Dto\User\FormCreateUserDto;
 use App\Dto\User\FormDeleteSubjectDto;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Repositories\UserRepository;
 use App\Services\User\ExecutorProfileUserService;
 use App\Services\User\ExecutorsSearchUserService;
 use App\Services\User\ExecutorsUserService;
@@ -27,6 +28,11 @@ use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
+    protected UserRepository $repository;
+    public function __construct(UserRepository $repository)
+    {
+        $this->repository = $repository;
+    }
     /**
      * Display the user's profile form.
      */
@@ -136,14 +142,21 @@ class ProfileController extends Controller
 
     public function executorProfile(int $id, ExecutorProfileUserService $service)
     {
+        $executor = $this->repository->find($id);
+        dd($executor->reviewsReceived()->get());
         if ($service->run($id)) {
             return view(('pages.executorprofile'), [
-                'executor' => User::find($id),
+                'executor' => $executor,
                 'user' => auth()->user(),
+                'reviews' => $executor->reviewsReceived
             ]);
         } else {
             abort(404);
         }
+    }
+
+    public function executorReviewSend(Request $request, User $executor)
+    {
 
     }
 
