@@ -29,8 +29,11 @@ class ChatController extends Controller
             userId: auth()->user()->id,
             buddyId: $post->user->id
         );
+        // вызываем сервис но он не прерывает функция он возвращает ее в чат ниже
+        // дальше надо подумать что делать
+
         $chat = $service->run($dto->getData());
-        return redirect()->route('chat', $chat);
+        return redirect()->route('chat', ['id' => $chat]);
     }
 
     public function chats(): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application

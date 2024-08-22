@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\Review\ReviewSendDto;
 use App\Enums\ReviewEnum;
 use App\Models\Review;
 use App\Models\User;
@@ -18,14 +19,15 @@ class ReviewController
 
     public function reviewSend(Request $request, User $executor)
     {
-        $this->repository->create([
-            'reviewer_id' => auth()->user()->id,
-            'reviewed_id' => $executor->id,
-            'comment' => $request->input('comment'),
-            'reviewable_type' => ReviewEnum::REVIEW,
-            'created_at'=> now(),
-            'updated_at'=> now(),
-        ]);
+        $dto = new ReviewSendDto(
+            reviewerId: auth()->user()->id,
+            reviewedId: $executor->id,
+            comment: $request->input(ReviewEnum::REVIEW->value),
+            reviewableType: ReviewEnum::REVIEW->value,
+            createdAt: now(),
+            updatedAt: now(),
+        );
+        $this->repository->create($dto->getData());
 
         return redirect()->back();
     }

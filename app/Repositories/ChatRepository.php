@@ -24,7 +24,7 @@ class ChatRepository implements IChatRepository
         // TODO: Implement delete() method.
     }
 
-    public function find(int $id)
+    public function find(int $id): Chat
     {
         return Chat::find($id);
     }

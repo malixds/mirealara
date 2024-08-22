@@ -143,12 +143,11 @@ class ProfileController extends Controller
     public function executorProfile(int $id, ExecutorProfileUserService $service)
     {
         $executor = $this->repository->find($id);
-        dd($executor->reviewsReceived()->get());
         if ($service->run($id)) {
             return view(('pages.executorprofile'), [
                 'executor' => $executor,
                 'user' => auth()->user(),
-                'reviews' => $executor->reviewsReceived
+                'reviews' => $executor->reviewsReceived()->get()->reverse(),
             ]);
         } else {
             abort(404);

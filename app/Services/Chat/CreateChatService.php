@@ -17,15 +17,15 @@ class CreateChatService
     }
     public function run(array $dto)
     {
+        // если такой чат уже есть, то редиректим его в чат
         if ($this->getChatInfo($dto['user_id'], $dto['buddy_id'])->exists()) {
-            $chatId = $this->getChatId($dto['user_id'], $dto['buddy_id']);
-            return redirect()->route('chat', $this->repository->find($chatId));
+            return $this->getChatId($dto['user_id'], $dto['buddy_id']); // return chat id
         }
         $chat = $this->repository->create();
         auth()->user()->chatsOnlyUser()->attach($chat->id, [
             'buddy_id' => $dto['buddy_id']
         ]);
-        return $chat;
+        return $chat->id;
     }
 
     public function getChatInfo($userId, $secondUser): \Illuminate\Database\Query\Builder

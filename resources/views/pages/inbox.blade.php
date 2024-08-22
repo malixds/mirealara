@@ -17,7 +17,7 @@
                                 $lastMessage = $chat->lastMessage;
                             @endphp
                             @if($lastMessage)
-                                <a href="{{route('chat', ['chat' => $chat])}}?chat_id={{$chat->id}}">
+                                <a href="{{route('chat', ['id' => $chat->id])}}">
                                     <div class="chats__item border-2 mb-2 border-radius-xl d-flex rounded-lg">
                                         <div class="chats__item__info">
                                             <div class="chats__item__name">
