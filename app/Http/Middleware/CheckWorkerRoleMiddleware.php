@@ -15,11 +15,10 @@ class CheckWorkerRoleMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-//        dd($request->user());
         if($request->user()->isAdmin() || $request->user()->isWorker()) {
             return $next($request);
-        } else{
-            return redirect()->route('user.profile-form', $request->user()->id);
+        } else {
+            return redirect()->route('main');
         }
     }
 }

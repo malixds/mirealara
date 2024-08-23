@@ -84,9 +84,14 @@ class ProfileController extends Controller
 
     public function profile()
     {
+        $acceptedPosts = auth()->user()->myAcceptedPosts->map(function ($post) {
+            $post->executor = User::find($post->pivot->executor_id);
+            return $post;
+        });
         return view('pages.profile', [
             'user' => auth()->user(),
             'myPosts' => auth()->user()->posts,
+            'myAcceptedPosts' => $acceptedPosts,
             'myTasks' => auth()->user()->tasks,
         ]);
     }
@@ -170,4 +175,7 @@ class ProfileController extends Controller
         $user->save();
         return view('pages.settings-password');
     }
+
+
+
 }

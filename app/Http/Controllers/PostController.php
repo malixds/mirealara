@@ -28,6 +28,7 @@ class PostController extends Controller
     {
         $this->repository = $repository;
     }
+
     public function posts(Request $request)
     {
         return view('pages.posts', [
@@ -124,7 +125,6 @@ class PostController extends Controller
             userId: $post->user_id,
             executorId: auth()->user()->id,
         );
-
         $post = $service->run($dto, $post);
         return redirect()->route('post.show-full', $post->id);
     }

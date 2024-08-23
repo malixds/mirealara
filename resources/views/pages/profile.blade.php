@@ -27,7 +27,7 @@
                         </div>
                         <!-- CTA -->
                         @if ($user)
-                            @if ($user->isWorker())
+                            @if (!$user->isWorker())
                                 <div class="mx-auto max-w-3xl text-center">
                                     <h1>Вы не можете выполнять задания для этого заполните анкету</h1>
                                     <a href="{{ route('user.profile-form', $user->id) }}"
@@ -163,5 +163,65 @@
                 </div>
             @endforeach
         </div>
+
+
+
+
+        <div class="mx-auto w-full max-w-3xl text-center" data-aos="fade-up" data-aos-duration="900">
+            <h2 class="text-3xl font-semibold md:text-5xl">
+                Ваши
+                <span
+                    class="bg-cover bg-center bg-no-repeat px-4 text-white bg-[url('https://assets.website-files.com/63904f663019b0d8edf8d57c/63915f9749aaab0572c48dae_Rectangle%2018.svg')]">задания</span>
+            </h2>
+            <div class="mx-auto mb-8 mt-4 max-w-[528px] md:mb-12 lg:mb-16">
+                <p class="text-[#636262]">
+                    Здесь отображаются ваши задания, на которые откликнулись другие пользователи
+                </p>
+            </div>
+        </div>
+
+        <div id="posts-container" class="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 lg:gap-12 mt-5"
+             data-aos="fade-up" data-aos-duration="900">
+            @foreach ($myAcceptedPosts as $post)
+                <div class="relative mb-8 flex flex-col rounded-2xl border border-solid border-black p-8 [box-shadow:rgb(0,_0,_0)_9px_9px] lg:mb-4">
+                    <div
+                        class="absolute -top-8 bottom-auto left-auto right-4 flex h-16 w-16 flex-col items-center justify-center rounded-full border border-solid border-[#9b9b9b] bg-white [box-shadow:rgb(0,_0,_0)_0px_5px] lg:right-8">
+                        <img src="https://assets.website-files.com/63904f663019b0d8edf8d57c/639157f1a197859a6cd7f265_image%203.png"
+                             alt="" class="relative z-10 inline-block h-8" />
+                        <div class="absolute z-0 h-8 w-8 rounded-full border border-[#c0d1ff] bg-[#c0d1ff]">
+                        </div>
+                    </div>
+                    <div class="flex justify-between">
+                        <p class="mb-4 text-xl font-semibold">
+                            {{ $post->title }}
+                        </p>
+                        @if (auth()->user() != null)
+                            @if ($post->user->id == $user->id || $user->roles->first()->name === 'admin')
+                                <a href="{{ route('post.edit-show', $post->id) }}"><i
+                                        class="mt-1 fa-solid fa-pen-to-square"></i>edit</a>
+                                <form class="inline" action="{{ route('post.delete', $post->id) }}" method="POST">
+                                    @method('post')
+                                    @csrf
+                                    <button type="submit"><i class="mt-1 fa-solid fa-trash"></i>x</button>
+                                </form>
+                            @endif
+                        @endif
+                    </div>
+                    <p>
+                        {{ $post->description }}
+                    </p>
+                    <p>
+                    <a href="{{ route('executor.profile', $post->pivot->executor_id) }}">
+                        {{auth()->user()->find($post->pivot->executor_id)->name}}
+                    </a>
+                        <br>
+                    <a href="{{ route('post.show-full', $post->id) }}"
+                       class=" mt-4 relative mr-5 inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">
+                        Подробнее</a>
+                </div>
+            @endforeach
+        </div>
+
+
     </div>
 @endsection

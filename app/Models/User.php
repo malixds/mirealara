@@ -168,11 +168,11 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return $this->roles()->slug = UserRolesEnum::ADMIN->value;
+        return $this->roles()->first()->slug === UserRolesEnum::ADMIN->value;
     }
     public function isWorker(): bool
     {
-        return $this->roles()->slug = UserRolesEnum::WORKER->value;
+        return $this->roles()->first()->slug === UserRolesEnum::WORKER->value;
     }
 
     public function reviewsGiven(): HasMany
@@ -184,5 +184,13 @@ class User extends Authenticatable
     {
         return $this->HasMany(Review::class, 'reviewed_id');
     }
+
+    public function myAcceptedPosts(): belongsToMany
+    {
+        return $this->belongsToMany
+        (Post::class, 'post_accept', 'user_id', 'post_id')
+            ->withPivot('executor_id');
+    }
 }
+
 

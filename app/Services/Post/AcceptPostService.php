@@ -9,14 +9,34 @@ use Illuminate\Support\Facades\DB;
 
 class AcceptPostService
 {
+    /**
+     * @throws Exception
+     */
     public function run(AcceptPostDto $dto, Post $post): Post
     {
-        try {
-            DB::table('post_accept')->insert([$dto->getData()]);
-            $post->increment('responce', 1);
-        } catch (Exception $exception) {
-            dd($exception);
+        if ($this->hasAlreadyAccepted($post->id, $dto->executorId)) {
+            throw new Exception('Вы уже приняли данную заявку');
         }
+        if (!$this->isNotOwner($dto)) {
+            throw new Exception('Вы не можете принять данную заявку');
+        }
+
+        DB::table('post_accept')->insert($dto->getData());
+        $post->increment('responce', 1);
         return $post;
     }
+
+    private function hasAlreadyAccepted(int $postId, int $executorId): bool
+    {
+        return DB::table('post_accept')
+            ->where('post_id', $postId)
+            ->where('executor_id', $executorId)
+            ->exists();
+    }
+
+    private function isNotOwner(AcceptPostDto $dto): bool
+    {
+        return $dto->userId !== $dto->executorId;
+    }
+
 }
