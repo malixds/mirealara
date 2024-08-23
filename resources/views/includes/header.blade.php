@@ -70,11 +70,15 @@
                    class="relative mr-5 inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">Get
                     Started</a>
             @else
-                <button
-                    onclick="showDropDown()"
-                    class="relative mr-5 inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">
-                    Settings
-                </button>
+{{--                <button--}}
+{{--                    onclick="showDropDown()"--}}
+{{--                    class="relative mr-5 inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">--}}
+{{--                    Settings--}}
+{{--                </button>--}}
+                <a
+                    href="{{route('user.profile-settings', auth()->user())}}"
+                    class="relative mr-5 inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">Settings
+                </a>
                 <a
                     href="{{route('post.create-show')}}"
                     class="relative mr-5 inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">Create

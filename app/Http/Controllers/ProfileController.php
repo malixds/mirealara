@@ -154,24 +154,20 @@ class ProfileController extends Controller
         }
     }
 
-    public function executorReviewSend(Request $request, User $executor)
+    public function profileSettings(User $user)
     {
-
-    }
-
-    public function inbox(int $id)
-    {
-
-        $user = User::find($id);
-        $inbox = $user->inbox()->first();
-        $chats = $inbox->chats()->get();
-        $chat = $inbox->chats()->first();
-        $messages = $chat->messages()->get();
-//        dd($messages);
-
-        return view('pages.inbox', [
-            'user' => $user,
-            'chats' => $chats
+        return view('pages.settings', [
+            'user' => $user
         ]);
+    }
+    public function profileSettingsPassword(Request $request, User $user)
+    {
+        $request->validate([
+            'password' => ['required', 'current_password'],
+            'new_password' => ['required', 'confirmed', 'min:8'],
+        ]);
+        $user->password = bcrypt($request->new_password);
+        $user->save();
+        return view('pages.settings-password');
     }
 }
