@@ -40,8 +40,8 @@ class ChatController extends Controller
         // вызываем сервис но он не прерывает функция он возвращает ее в чат ниже
         // дальше надо подумать что делать
 
-        $chat = $service->run($dto->getData());
-        return redirect()->route('chat', ['id' => $chat]);
+        $chatId = $service->run($dto->getData());
+        return redirect()->route('chat', ['id' => $chatId]);
     }
 
     public function chats(): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
@@ -53,9 +53,9 @@ class ChatController extends Controller
         ]);
     }
 
-    public function chat(Chat $chat): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    public function chat(int $chatId): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-        $messages = $this->repository->getWithUser($chat);
+        $messages = $this->repository->getWithUser(Chat::find($chatId));
         return view('pages.chat', [
             'user' => auth()->user(),
             'messages' => $messages,

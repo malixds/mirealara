@@ -36,7 +36,6 @@ class ChatRepository implements IChatRepository
 
     public function getWithUser(Chat $chat): \Illuminate\Database\Eloquent\Collection
     {
-//        dd('asdas');
         return $chat->messages()->with('user')->get();
     }
 

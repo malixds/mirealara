@@ -21,7 +21,6 @@ export default function useChat() {
 
     const getMessage = async () => {
         const urlParams = window.location.href;
-        let chatId = urlParams.split('/').pop();
         chatId = getChatId();
         await axios.get(`/chat/messages/${chatId}`).then((response) => {
             messages.value = response.data
