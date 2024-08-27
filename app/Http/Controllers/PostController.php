@@ -129,7 +129,15 @@ class PostController extends Controller
         return redirect()->route('post.show-full', $post->id);
     }
 
+    public function postReject(Post $post, User $user)
+    {
 
+    }
+
+    public function postConfirm(Post $post, User $user)
+    {
+
+    }
 
 
 

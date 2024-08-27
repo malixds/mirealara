@@ -6,13 +6,14 @@ use App\Dto\User\FormCreateUserDto;
 use App\Interfaces\IUserRepository;
 use App\Models\Subject;
 use App\Models\User;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\DB;
 
 class FormCreateUserService
 {
 
     public function  __construct(
-        private IUserRepository $userRepository
+        private UserRepository $userRepository
     )
     {
 

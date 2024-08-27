@@ -48,7 +48,7 @@ Route::get('/', function () {
 // Route::get('/profile/orders')
 Route::get('/profile/{id}', [ProfileController::class, 'profile'])->name('user.profile');
 Route::get('/profile/form/{id}', [ProfileController::class, 'formCreateShow'])
-    ->middleware('user.check')
+//    ->middleware('user.check')
     ->name('user.profile-form');
 Route::post('/profile/form/{id}', [ProfileController::class, 'formCreate'])->name('user.profile-form-create');
 Route::post('/delete/subject/{id}', [ProfileController::class, 'formDeleteSubject'])->name('user.profile-form-delete-subject');
@@ -80,6 +80,9 @@ Route::post('/posts/delete/{id}', [PostController::class, 'postDelete'])->name('
 Route::put('/posts/accept/{post}', [PostController::class, 'postAccept'])
     ->middleware('user.check')
     ->name('post.accept');
+
+Route::post('/posts/reject/{post}', [PostController::class, 'postReject'])->name('post.reject');
+Route::post('/posts/confirm/{post}', [PostController::class, 'postConfirm'])->name('post.confirm');
 
 // Route::get('/posts/search', [PostController::class, 'postSearch'])->name('post.search');
 

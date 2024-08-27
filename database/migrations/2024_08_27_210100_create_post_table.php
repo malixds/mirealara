@@ -20,11 +20,9 @@ return new class extends Migration
             $table->foreignId('subject_id')->references('id')->on('subjects')->onDelete('cascade');
             $table->date('deadline');
             $table->integer(('responce'))->default(0);
+            $table->string('status')->default('active');
             $table->timestamps();
         });
-        // Schema::table('posts', function (Blueprint $table) {
-        //     $table->unique('user_id');
-        // });
     }
 
     /**

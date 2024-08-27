@@ -10,13 +10,13 @@
                  data-aos-duration="900">
                 <!-- Component -->
                 <div
-                        class="w-full mx-auto max-w-7xl rounded-[48px] bg-cover bg-center bg-no-repeat py-20 px-5 text-white [box-shadow:rgb(106,_218,_255)_9px_9px] bg-[url('https://firebasestorage.googleapis.com/v0/b/flowspark-1f3e0.appspot.com/o/6391a6daa19785eb51dd3666_CTA%20(2)%20(1).svg?alt=media&token=b877deae-f9fb-4f75-ad69-cbc62e593e50')]">
+                    class="w-full mx-auto max-w-7xl rounded-[48px] bg-cover bg-center bg-no-repeat py-20 px-5 text-white [box-shadow:rgb(106,_218,_255)_9px_9px] bg-[url('https://firebasestorage.googleapis.com/v0/b/flowspark-1f3e0.appspot.com/o/6391a6daa19785eb51dd3666_CTA%20(2)%20(1).svg?alt=media&token=b877deae-f9fb-4f75-ad69-cbc62e593e50')]">
                     <div class="mx-auto max-w-3xl text-center">
                         <!-- Heading Div -->
                         <div class="mb-6 max-w-[720px] lg:mb-12">
                             <h2 class="mb-4 text-3xl font-semibold md:text-5xl">
                                 <span
-                                        class="bg-cover bg-center px-4 text-white bg-[ background-image: url('https://assets.website-files.com/63904f663019b0d8edf8d57c/6391a5b04f2836ad87dcc3bc_Rectangle%20773.svg')]">Your Profile
+                                    class="bg-cover bg-center px-4 text-white bg-[ background-image: url('https://assets.website-files.com/63904f663019b0d8edf8d57c/6391a5b04f2836ad87dcc3bc_Rectangle%20773.svg')]">Your Profile
                                 </span>
                             </h2>
                             <div class="mx-auto max-w-[630px]">
@@ -52,7 +52,7 @@
             <h2 class="text-3xl font-semibold md:text-5xl">
                 Ваши
                 <span
-                        class="bg-cover bg-center bg-no-repeat px-4 text-white bg-[url('https://assets.website-files.com/63904f663019b0d8edf8d57c/63915f9749aaab0572c48dae_Rectangle%2018.svg')]">задания</span>
+                    class="bg-cover bg-center bg-no-repeat px-4 text-white bg-[url('https://assets.website-files.com/63904f663019b0d8edf8d57c/63915f9749aaab0572c48dae_Rectangle%2018.svg')]">задания</span>
             </h2>
             <div class="mx-auto mb-8 mt-4 max-w-[528px] md:mb-12 lg:mb-16">
                 <p class="text-[#636262]">
@@ -66,12 +66,12 @@
              data-aos="fade-up" data-aos-duration="900">
             @foreach ($myPosts as $post)
                 <div
-                        class="relative mb-8 flex flex-col rounded-2xl border border-solid border-black p-8 [box-shadow:rgb(0,_0,_0)_9px_9px] lg:mb-4">
+                    class="relative mb-8 flex flex-col rounded-2xl border border-solid border-black p-8 [box-shadow:rgb(0,_0,_0)_9px_9px] lg:mb-4">
                     <div
-                            class="absolute -top-8 bottom-auto left-auto right-4 flex h-16 w-16 flex-col items-center justify-center rounded-full border border-solid border-[#9b9b9b] bg-white [box-shadow:rgb(0,_0,_0)_0px_5px] lg:right-8">
+                        class="absolute -top-8 bottom-auto left-auto right-4 flex h-16 w-16 flex-col items-center justify-center rounded-full border border-solid border-[#9b9b9b] bg-white [box-shadow:rgb(0,_0,_0)_0px_5px] lg:right-8">
                         <img
-                                src="https://assets.website-files.com/63904f663019b0d8edf8d57c/639157f1a197859a6cd7f265_image%203.png"
-                                alt="" class="relative z-10 inline-block h-8"/>
+                            src="https://assets.website-files.com/63904f663019b0d8edf8d57c/639157f1a197859a6cd7f265_image%203.png"
+                            alt="" class="relative z-10 inline-block h-8"/>
                         <div class="absolute z-0 h-8 w-8 rounded-full border border-[#c0d1ff] bg-[#c0d1ff]">
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                         @if (auth()->user() != null)
                             @if ($post->user->id == $user->id || $user->roles->first()->name === 'admin')
                                 <a href="{{ route('post.edit-show', $post->id) }}"><i
-                                            class="mt-1 fa-solid fa-pen-to-square"></i>edit</a>
+                                        class="mt-1 fa-solid fa-pen-to-square"></i>edit</a>
                                 <form class="inline" action="{{ route('post.delete', $post->id) }}" method="POST">
                                     @method('post')
                                     @csrf
@@ -113,7 +113,7 @@
             <h2 class="text-3xl font-semibold md:text-5xl">
                 Ваши
                 <span
-                        class="bg-cover bg-center bg-no-repeat px-4 text-white bg-[url('https://assets.website-files.com/63904f663019b0d8edf8d57c/63915f9749aaab0572c48dae_Rectangle%2018.svg')]">заказы</span>
+                    class="bg-cover bg-center bg-no-repeat px-4 text-white bg-[url('https://assets.website-files.com/63904f663019b0d8edf8d57c/63915f9749aaab0572c48dae_Rectangle%2018.svg')]">заказы</span>
             </h2>
             <div class="mx-auto mb-8 mt-4 max-w-[528px] md:mb-12 lg:mb-16">
                 <p class="text-[#636262]">
@@ -126,12 +126,12 @@
              data-aos="fade-up" data-aos-duration="900">
             @foreach ($myTasks as $task)
                 <div
-                        class="relative mb-8 flex flex-col rounded-2xl border border-solid border-black p-8 [box-shadow:rgb(0,_0,_0)_9px_9px] lg:mb-4">
+                    class="relative mb-8 flex flex-col rounded-2xl border border-solid border-black p-8 [box-shadow:rgb(0,_0,_0)_9px_9px] lg:mb-4">
                     <div
-                            class="absolute -top-8 bottom-auto left-auto right-4 flex h-16 w-16 flex-col items-center justify-center rounded-full border border-solid border-[#9b9b9b] bg-white [box-shadow:rgb(0,_0,_0)_0px_5px] lg:right-8">
+                        class="absolute -top-8 bottom-auto left-auto right-4 flex h-16 w-16 flex-col items-center justify-center rounded-full border border-solid border-[#9b9b9b] bg-white [box-shadow:rgb(0,_0,_0)_0px_5px] lg:right-8">
                         <img
-                                src="https://assets.website-files.com/63904f663019b0d8edf8d57c/639157f1a197859a6cd7f265_image%203.png"
-                                alt="" class="relative z-10 inline-block h-8"/>
+                            src="https://assets.website-files.com/63904f663019b0d8edf8d57c/639157f1a197859a6cd7f265_image%203.png"
+                            alt="" class="relative z-10 inline-block h-8"/>
                         <div class="absolute z-0 h-8 w-8 rounded-full border border-[#c0d1ff] bg-[#c0d1ff]">
                         </div>
                     </div>
@@ -142,7 +142,7 @@
                         @if (auth()->user() !== null)
                             @if ($task->user->id == $user->id || $user->isAdmin())
                                 <a href="{{ route('post.edit-show', $task->id) }}"><i
-                                            class="mt-1 fa-solid fa-pen-to-square"></i>edit</a>
+                                        class="mt-1 fa-solid fa-pen-to-square"></i>edit</a>
                                 <form class="inline" action="{{ route('post.delete', $task->id) }}" method="POST">
                                     @method('post')
                                     @csrf
@@ -174,7 +174,7 @@
             <h2 class="text-3xl font-semibold md:text-5xl">
                 Ваши
                 <span
-                        class="bg-cover bg-center bg-no-repeat px-4 text-white bg-[url('https://assets.website-files.com/63904f663019b0d8edf8d57c/63915f9749aaab0572c48dae_Rectangle%2018.svg')]">задания</span>
+                    class="bg-cover bg-center bg-no-repeat px-4 text-white bg-[url('https://assets.website-files.com/63904f663019b0d8edf8d57c/63915f9749aaab0572c48dae_Rectangle%2018.svg')]">задания</span>
             </h2>
             <div class="mx-auto mb-8 mt-4 max-w-[528px] md:mb-12 lg:mb-16">
                 <p class="text-[#636262]">
@@ -187,12 +187,12 @@
              data-aos="fade-up" data-aos-duration="900">
             @foreach ($myAcceptedPosts as $post)
                 <div
-                        class="relative mb-8 flex flex-col rounded-2xl border border-solid border-black p-8 [box-shadow:rgb(0,_0,_0)_9px_9px] lg:mb-4">
+                    class="relative mb-8 flex flex-col rounded-2xl border border-solid border-black p-8 [box-shadow:rgb(0,_0,_0)_9px_9px] lg:mb-4">
                     <div
-                            class="absolute -top-8 bottom-auto left-auto right-4 flex h-16 w-16 flex-col items-center justify-center rounded-full border border-solid border-[#9b9b9b] bg-white [box-shadow:rgb(0,_0,_0)_0px_5px] lg:right-8">
+                        class="absolute -top-8 bottom-auto left-auto right-4 flex h-16 w-16 flex-col items-center justify-center rounded-full border border-solid border-[#9b9b9b] bg-white [box-shadow:rgb(0,_0,_0)_0px_5px] lg:right-8">
                         <img
-                                src="https://assets.website-files.com/63904f663019b0d8edf8d57c/639157f1a197859a6cd7f265_image%203.png"
-                                alt="" class="relative z-10 inline-block h-8"/>
+                            src="https://assets.website-files.com/63904f663019b0d8edf8d57c/639157f1a197859a6cd7f265_image%203.png"
+                            alt="" class="relative z-10 inline-block h-8"/>
                         <div class="absolute z-0 h-8 w-8 rounded-full border border-[#c0d1ff] bg-[#c0d1ff]">
                         </div>
                     </div>
@@ -203,7 +203,7 @@
                         @if (auth()->user() != null)
                             @if ($post->user->id == $user->id || $user->roles->first()->name === 'admin')
                                 <a href="{{ route('post.edit-show', $post->id) }}"><i
-                                            class="mt-1 fa-solid fa-pen-to-square"></i>edit</a>
+                                        class="mt-1 fa-solid fa-pen-to-square"></i>edit</a>
                                 <form class="inline" action="{{ route('post.delete', $post->id) }}" method="POST">
                                     @method('post')
                                     @csrf
@@ -223,15 +223,27 @@
                             {{$executor->name}}
                         </a>
                         <br>
-                    <div class="flex">
-                        <a href="{{ route('post.show-full', $post->id) }}"
-                           class=" mt-4 relative inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">
-                            Подробнее</a>
+                    <div class="">
+                        <div class="flex mb-4">
+                            <a href="{{ route('post.show-full', $post->id) }}"
+                               class=" mt-4 relative inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">
+                                Принять</a>
 
-                        <a href="{{ route('chat.create', ['post' => $post, 'executorId' => $executor->id]) }}"
-                           class="relative mr-5 inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">
-                            Перейти в чат
-                        </a>
+                            <a href="{{ route('post.reject', ['post' => $post, '$executor' => $executor]) }}"
+                               class="relative inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">
+                                Отказать
+                            </a>
+                        </div>
+                        <div class="flex">
+                            <a href="{{ route('post.show-full', $post->id) }}"
+                               class=" mt-4 relative inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">
+                                Подробнее</a>
+
+                            <a href="{{ route('chat.create', ['post' => $post, 'executorId' => $executor->id]) }}"
+                               class="relative mr-5 inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">
+                                Перейти в чат
+                            </a>
+                        </div>
                     </div>
                 </div>
             @endforeach

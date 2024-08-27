@@ -18,7 +18,7 @@ class CheckWorkerRoleMiddleware
         if($request->user()->isAdmin() || $request->user()->isWorker()) {
             return $next($request);
         } else {
-            return redirect()->route('main');
+            return redirect()->route('user.profile-form', $request->user()->id); // rework
         }
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Services\Post;
 
 use App\Dto\Post\AcceptPostDto;
+use App\Enums\PostStatusEnum;
 use App\Models\Post;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -18,11 +19,13 @@ class AcceptPostService
             throw new Exception('Вы уже приняли данную заявку');
         }
         if (!$this->isNotOwner($dto)) {
+            dd('asda');
             throw new Exception('Вы не можете принять данную заявку');
         }
 
         DB::table('post_accept')->insert($dto->getData());
         $post->increment('responce', 1);
+        $post->status = PostStatusEnum::ACCEPTED->value;
         return $post;
     }
 

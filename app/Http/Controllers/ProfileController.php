@@ -101,7 +101,8 @@ class ProfileController extends Controller
         $user = auth()->user();
         return view('pages.workerform', [
             'user' => $user,
-            'subjectsArr' => $user->subjects()->get()
+            'subjectsArr' => $user->subjects()->get(),
+            'subjects' => Subject::get()
         ]);
     }
 
@@ -110,10 +111,10 @@ class ProfileController extends Controller
         $dto = new FormCreateUserDto(
             userId: $id,
             subjectsArr: $request->subjects,
-            name: $request->name,
+//            name: $request->name,
             description: $request->description,
-            email: $request->email,
-            contactLink: $request->contactLink,
+//            email: $request->email,
+            contactLink: $request->contact_link,
         );
         $service->run(User::find($id), $dto);
         return redirect()->route('user.profile-form', $id);
