@@ -81,8 +81,8 @@ Route::put('/posts/accept/{post}', [PostController::class, 'postAccept'])
     ->middleware('user.check')
     ->name('post.accept');
 
-Route::post('/posts/reject/{post}', [PostController::class, 'postReject'])->name('post.reject');
-Route::post('/posts/confirm/{post}', [PostController::class, 'postConfirm'])->name('post.confirm');
+Route::post('/posts/reject/{post}/{executorId?}', [PostController::class, 'postReject'])->name('post.reject');
+Route::post('/posts/confirm/{post}/{executorId?}', [PostController::class, 'postConfirm'])->name('post.confirm');
 
 // Route::get('/posts/search', [PostController::class, 'postSearch'])->name('post.search');
 
@@ -104,6 +104,8 @@ Route::get('/chat/messages/{chat}', [ChatController::class, 'chatMessages'])->na
 Route::post('/chat/send/{id}', [ChatController::class, 'chatSend'])->name('chat.send');
 
 
+Route::get('/test/maxim', [ProfileController::class, 'testMaxim'])->name('test.maxim');
+Route::get('/test/oleg', [ProfileController::class, 'testOleg'])->name('test.oleg');
 
 
 Route::get('/logout', function () {

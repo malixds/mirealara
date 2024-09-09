@@ -224,15 +224,28 @@
                         </a>
                         <br>
                     <div class="">
+                        @if($post->status === 'confirmed')
+                            <p>Задание выполняется | другие пользователи не могут отлкикнуться на него</p>
+                        @endif
                         <div class="flex mb-4">
-                            <a href="{{ route('post.show-full', $post->id) }}"
-                               class=" mt-4 relative inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">
-                                Принять</a>
+                            <form method="post"
+                                  action="{{route('post.confirm', ['post' => $post, 'executorId' => $executor->id])}}">
+                                @csrf
+                                <button type="submit"
+                                        class=" mt-4 relative inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">
+                                    Принять
+                                </button>
+                            </form>
 
-                            <a href="{{ route('post.reject', ['post' => $post, '$executor' => $executor]) }}"
-                               class="relative inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">
-                                Отказать
-                            </a>
+                            <form method="post"
+                                  action="{{route('post.reject', ['post' => $post, 'executorId' => $executor->id])}}">
+                                @csrf
+                                <button type="submit"
+                                        class=" mt-4 relative inline-block rounded-xl border border-[#1353FE] bg-white px-8 py-4 text-center font-semibold text-[#1353FE] [box-shadow:rgb(0,0,0)_6px_6px] hover:border-black md:mr-6">
+                                    Отказать
+                                </button>
+                            </form>
+
                         </div>
                         <div class="flex">
                             <a href="{{ route('post.show-full', $post->id) }}"

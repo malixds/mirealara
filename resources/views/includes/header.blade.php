@@ -45,12 +45,21 @@
         <div class="mt-14 flex flex-col space-y-8 lg:mt-0 lg:flex lg:flex-row lg:space-x-1 lg:space-y-0"
              x-bind:class="isOpen ? 'show' : 'hidden'">
             <!-- DROPDOWN -->
+
+            <a href="{{route('test.maxim')}}"
+               class="font-inter font-medium rounded-lg lg:px-6 lg:py-4 lg:hover:bg-gray-50 lg:hover:text-gray-800">MaximLog</a>
+            <a href="{{route('test.oleg')}}"
+               class="font-inter font-medium rounded-lg lg:px-6 lg:py-4 lg:hover:bg-gray-50 lg:hover:text-gray-800">OlegLog</a>
+
             @if(auth()->user())
                 <a href="{{route('user.profile', auth()->id())}}"
                    class="profile__link-header relative font-inter font-medium rounded-lg pb-8 lg:px-6 lg:py-4 lg:pb-0 lg:hover:bg-gray-50 lg:hover:text-gray-800">Profile</a>
                 <a href="{{route('chats', auth()->id())}}"
                    class="profile__link-header relative font-inter font-medium rounded-lg pb-8 lg:px-6 lg:py-4 lg:pb-0 lg:hover:bg-gray-50 lg:hover:text-gray-800">Messages</a>
             @endif
+
+
+
 
             <a href="{{route('post.show')}}"
                class="font-inter font-medium rounded-lg lg:px-6 lg:py-4 lg:hover:bg-gray-50 lg:hover:text-gray-800">Posts</a>

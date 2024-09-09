@@ -19,10 +19,11 @@ class AcceptPostService
             throw new Exception('Вы уже приняли данную заявку');
         }
         if (!$this->isNotOwner($dto)) {
-            dd('asda');
             throw new Exception('Вы не можете принять данную заявку');
         }
-
+        if ($post->status !== PostStatusEnum::ACTIVE->value && $post->status !== PostStatusEnum::ACCEPTED->value) {
+            throw new Exception('Эту заявку уже выполняет другой человек');
+        }
         DB::table('post_accept')->insert($dto->getData());
         $post->increment('responce', 1);
         $post->status = PostStatusEnum::ACCEPTED->value;

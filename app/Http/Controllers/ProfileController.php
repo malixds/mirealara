@@ -177,6 +177,17 @@ class ProfileController extends Controller
         return view('pages.settings-password');
     }
 
+    public function testMaxim()
+    {
+        Auth::login(User::find(11), true);
+        return redirect()->route('main');
+    }
+    public function testOleg()
+    {
+        Auth::login(User::find(12), true);
+        return redirect()->route('main');
+    }
+
 
 
 }

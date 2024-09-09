@@ -7,6 +7,7 @@ use App\Dto\Post\AcceptPostDto;
 use App\Dto\Post\CreatePostDto;
 use App\Dto\Post\DeletePostDto;
 use App\Dto\Post\EditPostDto;
+use App\Enums\PostStatusEnum;
 use App\Models\Post;
 use App\Models\Subject;
 use App\Models\User;
@@ -129,13 +130,26 @@ class PostController extends Controller
         return redirect()->route('post.show-full', $post->id);
     }
 
-    public function postReject(Post $post, User $user)
+    public function postReject(Post $post, int $executorId=null)
     {
-
+        $post->update([
+            'status' => PostStatusEnum::ACTIVE->value
+        ]);
+        DB::table('post_accept')
+            ->where('post_id', $post->id)
+            ->where('executor_id', $executorId)
+            ->where('user_id', $post->user_id)
+            ->delete();
+        return redirect()->back();
     }
 
-    public function postConfirm(Post $post, User $user)
+    public function postConfirm(Post $post, User $executor)
     {
+        $post->update([
+            'status' => PostStatusEnum::CONFIRMED->value
+        ]);
+
+        return redirect()->back();
 
     }
 
