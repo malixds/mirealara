@@ -8,6 +8,8 @@ export default defineConfig({
             input: [
                 'resources/js/app.js',
                 'resources/js/searchPosts.js',
+                'resources/js/searchExecutors.js',
+                'resources/js/Composable/Chat.js',
                 'resources/css/app.css',
                 ],
             refresh: true,

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PostStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -56,6 +57,15 @@ class Post extends Model
     public function postAccept() : BelongsToMany
     {
         return $this->belongsToMany(User::class, 'post_accept');
+    }
+
+    public function isConfirmed(): bool
+    {
+        return $this->status === PostStatusEnum::CONFIRMED->value;
+    }
+    public function isAgreed(): bool
+    {
+        return $this->status === PostStatusEnum::AGREED->value;
     }
 
     use HasFactory;

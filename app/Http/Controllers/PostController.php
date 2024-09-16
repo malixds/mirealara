@@ -143,16 +143,19 @@ class PostController extends Controller
         return redirect()->back();
     }
 
-    public function postConfirm(Post $post, User $executor)
+    public function postAgree(Post $post, User $executor)
+    {
+        $post->update([
+            'status' => PostStatusEnum::AGREED->value
+        ]);
+        return redirect()->back();
+    }    public function postConfirm(Post $post, User $executor)
     {
         $post->update([
             'status' => PostStatusEnum::CONFIRMED->value
         ]);
-
         return redirect()->back();
-
     }
-
 
 
 

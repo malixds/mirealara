@@ -82,6 +82,7 @@ Route::put('/posts/accept/{post}', [PostController::class, 'postAccept'])
     ->name('post.accept');
 
 Route::post('/posts/reject/{post}/{executorId?}', [PostController::class, 'postReject'])->name('post.reject');
+Route::post('/posts/agree/{post}/{executorId?}', [PostController::class, 'postAgree'])->name('post.agree');
 Route::post('/posts/confirm/{post}/{executorId?}', [PostController::class, 'postConfirm'])->name('post.confirm');
 
 // Route::get('/posts/search', [PostController::class, 'postSearch'])->name('post.search');
