@@ -37,9 +37,6 @@ class ChatController extends Controller
                 buddyId: $post->user->id
             );
         }
-        // вызываем сервис но он не прерывает функция он возвращает ее в чат ниже
-        // дальше надо подумать что делать
-
         $chatId = $service->run($dto->getData());
         return redirect()->route('chat', ['id' => $chatId]);
     }

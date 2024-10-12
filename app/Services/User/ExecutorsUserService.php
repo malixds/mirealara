@@ -12,10 +12,9 @@ class ExecutorsUserService
         $executors = User::whereHas('roles', function ($query) {
             $query->where('slug', 'worker');
         })->with('subjects')->get();
-        $subjects = Subject::get();
         return [
             'executors' => $executors,
-            'subjects' => $subjects,
+            'subjects' => Subject::get(),
             'user' => auth()->user(),
         ];
     }

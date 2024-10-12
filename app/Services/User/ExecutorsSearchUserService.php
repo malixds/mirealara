@@ -9,9 +9,8 @@ use App\Models\User;
 
 class ExecutorsSearchUserService
 {
-    public function run(ExecutorsSearchUserDto $dto): array
+    public function run($subjectsFromRequest): array
     {
-        $subjectsFromRequest = $dto->subjectsFromRequest;
         $executors = User::with('roles', 'subjects')
             ->whereHas('roles', function ($query) {
                 $query->where('slug', UserRolesEnum::WORKER->value);
@@ -25,7 +24,7 @@ class ExecutorsSearchUserService
 
         return [
             'executors' => $executors->get(),
-            'subjects' => $dto->subjects,
+            'subjects' => Subject::get(),
             'user' => auth()->user()
         ];
     }

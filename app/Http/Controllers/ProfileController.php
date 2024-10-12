@@ -137,12 +137,7 @@ class ProfileController extends Controller
 
     public function executorSearch(Request $request, ExecutorsSearchUserService $service)
     {
-        // dd('hello');
-        $dto = new ExecutorsSearchUserDto(
-            subjectsFromRequest:$request->input('subjects'),
-            subjects: Subject::get(),
-        );
-        return view('pages.executorsearch', $service->run($dto));
+        return view('pages.executorsearch', $service->run($request->input('subjects')));
 
     }
 
@@ -179,12 +174,12 @@ class ProfileController extends Controller
 
     public function testMaxim()
     {
-        Auth::login(User::find(11), true);
+        Auth::login(User::find(100), true);
         return redirect()->route('main');
     }
     public function testOleg()
     {
-        Auth::login(User::find(12), true);
+        Auth::login(User::find(228), true);
         return redirect()->route('main');
     }
 

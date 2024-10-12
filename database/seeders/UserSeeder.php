@@ -22,12 +22,15 @@ class UserSeeder extends Seeder
         $faker = Faker::create();
         $admin = Role::create([
             'name' => UserRolesEnum::ADMIN->value,
+            'slug' => UserRolesEnum::ADMIN->value,
         ]);
         $regular = Role::create([
             'name' => UserRolesEnum::REGULAR->value,
+            'slug' => UserRolesEnum::REGULAR->value,
         ]);
         $worker = Role::create([
             'name' => UserRolesEnum::WORKER->value,
+            'slug' => UserRolesEnum::WORKER->value,
         ]);
 
         foreach (range(1, 10) as $index) {
@@ -37,7 +40,7 @@ class UserSeeder extends Seeder
                 'password' => '130603maxim',
             ]);
 
-            if ($user->id === 1){
+            if ($user->id === 1) {
                 $user->roles()->attach($admin);
             } else if ($user->id % 2 === 0) {
                 $user->roles()->attach($worker);
@@ -48,10 +51,19 @@ class UserSeeder extends Seeder
 
         }
         $user = User::create([
-            'name'=>'maxim',
-            'email'=>'maxim@mail.ru',
-            'password'=>'130603maxim',
+            'id' => 100,
+            'name' => 'maxim',
+            'email' => 'maxim@mail.ru',
+            'password' => '130603maxim',
         ]);
         $user->roles()->attach($regular);
+
+        $user = User::create([
+            'id' => 228,
+            'name' => 'Oleg',
+            'email' => 'oleg@mail.ru',
+            'password' => '123123123',
+        ]);
+        $user->roles()->attach($worker);
     }
 }

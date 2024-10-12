@@ -57,10 +57,6 @@
                 <a href="{{route('chats', auth()->id())}}"
                    class="profile__link-header relative font-inter font-medium rounded-lg pb-8 lg:px-6 lg:py-4 lg:pb-0 lg:hover:bg-gray-50 lg:hover:text-gray-800">Messages</a>
             @endif
-
-
-
-
             <a href="{{route('post.show')}}"
                class="font-inter font-medium rounded-lg lg:px-6 lg:py-4 lg:hover:bg-gray-50 lg:hover:text-gray-800">Posts</a>
             <a href="{{route('executors')}}"

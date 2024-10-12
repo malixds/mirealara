@@ -6,8 +6,13 @@ class ExecutorsSearchUserDto
 {
     public function __construct(
         readonly public array $subjectsFromRequest,
-        readonly public array $subjects
     )
     {
+    }
+    public function get(): array
+    {
+        return [
+            'subjects_request'  => $this->subjectsFromRequest,
+        ];
     }
 }

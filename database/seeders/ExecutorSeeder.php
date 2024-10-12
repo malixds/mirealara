@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Post;
+use App\Models\User;
 use Faker\Factory as Faker;
 class ExecutorSeeder extends Seeder
 {
@@ -13,10 +13,9 @@ class ExecutorSeeder extends Seeder
      */
     public function run(): void
     {
-
         $faker = Faker::create();
         foreach(range(1, 10) as $index) {
-            Post::create([
+            User::create([
                 'title'=> $faker->title(),
                 'description'=> $faker->text(),
                 'user_id'=> rand(1,3),
